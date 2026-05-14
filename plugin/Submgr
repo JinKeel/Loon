@@ -1,0 +1,10 @@
+#!name = 订阅管理
+#!desc = 更新时间2026-05-15
+#!icon = https://raw.githubusercontent.com/58xinian/icon/master/Sub-Store1.png
+
+[MITM]
+hostname = sub.store
+
+[Script]
+http-request ^https:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-1.min.js, requires-body=true, tag=后端处理
+http-request ^https:\/\/sub\.store script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-0.min.js, requires-body=true, tag=前端处理
