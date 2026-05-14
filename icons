@@ -1,0 +1,114 @@
+{
+  "name": "图标",
+  "description": "更新于 2026.05.15",
+  "icons": [
+    {
+      "name": "HK",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/Hongkong.png"
+    },
+    {
+      "name": "JP",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/Japan(3).png"
+    },
+    {
+      "name": "SG",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/singapore(1).png"
+    },
+    {
+      "name": "TW",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/taiwan(3).png"
+    },
+    {
+      "name": "US",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/US.png"
+    },
+    {
+      "name": "Egern",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/02ProxySoftLogo/Egern.png"
+    },
+    {
+      "name": "Loon",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/02ProxySoftLogo/Loon.png"
+    },
+    {
+      "name": "QuantumultX",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/02ProxySoftLogo/quanx(2).png"
+    },
+    {
+      "name": "Globe",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/05icon/quanqiu(1).png"
+    },
+    {
+      "name": "Google",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/google(1).png"
+    },
+    {
+      "name": "Gemini",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/gemini(1).png"
+    },
+    {
+      "name": "Emby",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/emby.png"
+    },
+    {
+      "name": "Spotify",
+      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/spotify(green)(1).png"
+    },
+    {
+      "name": "Telegram",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/1920px-Telegram_logo.svg.png"
+    },
+    {
+      "name": "Tg",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"
+    },
+    {
+      "name": "Apple",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple_2.png"
+    },
+    {
+      "name": "CloudMusic",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Netease_Music.png"
+    },
+    {
+      "name": "iCloud",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/iCloud.png"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png"
+    },
+    {
+      "name": "YouTubeMusic",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube_Music.png"
+    },
+    {
+      "name": "Aout",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Auto.png"
+    },
+    {
+      "name": "AdBlock",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Advertising.png"
+    },
+    {
+      "name": "BiliBili",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/bilibili_3.png"
+    },
+    {
+      "name": "ChatGPT",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"
+    },
+    {
+      "name": "Reject",
+      "url": "https://storage.freeicon.com/free-icon-icon-hYyLoUtr7Mu7"
+    },
+    {
+      "name": "TikTok",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TikTok_2.png"
+    },
+    {
+      "name": "X",
+      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/X.png"
+    }
+  ]
+}
