@@ -1,6 +1,6 @@
 #!name = 广告平台拦截
 #!desc = 更新时间2026-05-15
-#!icon = https://play-lh.googleusercontent.com/0MygaagsBwVN4W8IoZjzD3aQ8aAmOxSQTm1R6TqNgV231LBDRd_IJd6wkgL6baPR-NRKi6wjPjaJZEui5sk9kQ
+#!icon = https://static.wixstatic.com/media/d8c8bc_3fbedb80a60a461798e03375209d189e~mv2.png
 
 [Rule]
 DOMAIN,dg.k.jd.com,REJECT
