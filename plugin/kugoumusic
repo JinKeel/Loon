@@ -6,7 +6,7 @@
 hostname = gateway.kugou.com,adservice.kugou.com
 
 [Rewrite]
-^https:\/\/adservice\.kugou\.com\/v2\/lite_v_youth_task_center reject-200
+^https:\/\/adservice\.kugou\.com\/v2\/(lite_v_youth_task_center|lite_v_youth_player_widget) reject-200
 ^https:\/\/gateway\.kugou\.com\/ads\.(gateway|service) reject-200
 ^https:\/\/gateway\.kugou\.com\/goddess\/v1\/content reject-200
 ^https:\/\/gateway\.kugou\.com\/card\/v1\/pxy response-body-json-jq '.data.responses|=map(select(.module!="y_tag" and.module!="y_lab"))'
