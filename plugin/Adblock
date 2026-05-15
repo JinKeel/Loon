@@ -1,10 +1,11 @@
 #!name = 广告平台拦截
 #!desc = 更新时间2026-05-15
-#!icon = https://cdn3d.iconscout.com/3d/premium/thumb/ad-blocker-3d-icon-png-download-8581431.png
+#!icon = https://play-lh.googleusercontent.com/0MygaagsBwVN4W8IoZjzD3aQ8aAmOxSQTm1R6TqNgV231LBDRd_IJd6wkgL6baPR-NRKi6wjPjaJZEui5sk9kQ
 
 [Rule]
 DOMAIN,dg.k.jd.com,REJECT
 DOMAIN,dgstatic.jd.com,REJECT
+DOMAIN,adashbc.ut.taobao.com,REJECT
 DOMAIN,xs.gdt.qq.com,REJECT
 DOMAIN,rpt.gdt.qq.com,REJECT
 DOMAIN,tp2p.kg.qq.com,REJECT
