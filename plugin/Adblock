@@ -1,6 +1,6 @@
 #!name = 广告平台拦截
 #!desc = 更新时间2026-05-15
-#!icon = https://cdn3d.iconscout.com/3d/premium/thumb/no-ads-3d-icon-png-download-9878763.png
+#!icon = https://cdn3d.iconscout.com/3d/premium/thumb/ad-blocker-3d-icon-png-download-8581431.png
 
 [MitM]
 hostname = us.l.qq.com
