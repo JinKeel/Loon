@@ -1,6 +1,6 @@
 #!name = 广告平台拦截
 #!desc = 更新时间2026-05-15
-#!icon = https://pp.myapp.com/ma_icon/0/icon_54305730_1757062882/256
+#!icon = https://app.yipee.cc/wp-content/uploads/2019/07/2b43be91aabf0c44198b91691144dd3b.png
 
 [Rule]
 DOMAIN,dg.k.jd.com,REJECT
