@@ -34,7 +34,7 @@ if (obj) {
                 if(d.timecomment?.mapParams) d.timecomment.mapParams.timecomment="0";
             }
         } catch (e) {
-            console.log("changtingdaily错误");
+            console.log("changtingdaily处理错误");
         }
     } 
 
@@ -64,7 +64,7 @@ if (obj) {
                 if(d.TMEAB0OfflineH5) d.TMEAB0OfflineH5=[];
             }
         } catch (e) {
-            console.log("SearchListV2错误");
+            console.log("SearchListV2处理错误");
         }
     }
 
