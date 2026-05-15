@@ -1,6 +1,6 @@
 #!name = 广告平台拦截
 #!desc = 更新时间2026-05-15
-#!icon = https://static.wixstatic.com/media/d8c8bc_3fbedb80a60a461798e03375209d189e~mv2.png
+#!icon = https://m.media-amazon.com/images/I/6111wmK53rL.png
 
 [Rule]
 DOMAIN,dg.k.jd.com,REJECT
