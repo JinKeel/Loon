@@ -47,7 +47,7 @@ if (obj) {
                 });
             }
         } catch (e) {
-            console.log("处理失败");
+            console.log("init处理错误");
         }
     }
     $done({ body: JSON.stringify(obj) });
