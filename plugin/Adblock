@@ -3,6 +3,7 @@
 #!icon = https://cdn.vectorstock.com/i/500p/88/10/prohibited-icon-vector-1878810.jpg
 
 [Rule]
+DOMAIN,rdelivery.qq.com,REJECT
 DOMAIN,dg.k.jd.com,REJECT
 DOMAIN,dgstatic.jd.com,REJECT
 DOMAIN,adashxgc.ut.taobao.com,REJECT
