@@ -5,6 +5,7 @@
 [Rule]
 DOMAIN,dg.k.jd.com,REJECT
 DOMAIN,dgstatic.jd.com,REJECT
+DOMAIN,adashxgc.ut.taobao.com,REJECT
 DOMAIN,adashbc.ut.taobao.com,REJECT
 DOMAIN,xs.gdt.qq.com,REJECT
 DOMAIN,rpt.gdt.qq.com,REJECT
@@ -65,6 +66,7 @@ DOMAIN,gdfp.gifshow.com,REJECT
 DOMAIN,open.e.kuaishou.com,REJECT
 DOMAIN,open.e.kuaishou.cn,REJECT
 DOMAIN,adtrack.e.kuaishou.com,REJECT
+DOMAIN-SUFFIX,alicdn.com,REJECT
 DOMAIN-SUFFIX,bds.snssdk.com,REJECT
 DOMAIN-SUFFIX,byteadverts.com,REJECT
 DOMAIN-SUFFIX,ctobsnssdk.com,REJECT
