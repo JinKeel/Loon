@@ -7,7 +7,7 @@ hostname = gateway.kugou.com,adservice.kugou.com
 
 [Rewrite]
 ^https:\/\/adservice\.kugou\.com\/v2\/lite_v_youth_task_center reject-200
-^https:\/\/gateway\.kugou\.com\/ads\.gateway reject-200
+^https:\/\/gateway\.kugou\.com\/ads\.(gateway|service) reject-200
 ^https:\/\/gateway\.kugou\.com\/goddess\/v1\/content reject-200
 ^https:\/\/gateway\.kugou\.com\/card\/v1\/pxy response-body-json-jq '.data.responses|=map(select(.module!="y_tag" and.module!="y_lab"))'
 ^https:\/\/gateway\.kugou\.com\/youth\/v1\/account\/get_vip_tips response-body-json-jq '.data.label_tips=null|.data.account_tips.title="已屏蔽广告"'
