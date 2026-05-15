@@ -3,6 +3,8 @@
 #!icon = https://cdn3d.iconscout.com/3d/premium/thumb/ad-blocker-3d-icon-png-download-8581431.png
 
 [Rule]
+DOMAIN,dg.k.jd.com,REJECT
+DOMAIN,dgstatic.jd.com,REJECT
 DOMAIN,xs.gdt.qq.com,REJECT
 DOMAIN,rpt.gdt.qq.com,REJECT
 DOMAIN,tp2p.kg.qq.com,REJECT
