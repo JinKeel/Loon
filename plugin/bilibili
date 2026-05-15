@@ -9,7 +9,7 @@ hostname = app.bilibili.com,api.bilibili.com,grpc.biliapi.net
 ^https:\/\/api\.bilibili\.com\/(x\/(resource\/(top\/activity|patch\/tab(\/v2)?)|vip\/ads\/materials)|pgc\/activity\/deliver\/material\/receive)\? reject-200
 ^https:\/\/api\.bilibili\.com\/pgc\/page\/cinema\/tab response-body-json-jq 'del(.result.modules[]|select(.module_id==1633))'
 ^https:\/\/api\.bilibili\.com\/pgc\/page\/bangumi response-body-json-jq 'del(.result.modules[]|select(.module_id==1639))'
-^https:\/\/app\.bilibili\.com\/x\/v2\/splash response-body-json-jq '.data|=with_entries(if.key|IN("show","event_list")then.value=[]else.end)'
+^https:\/\/app\.bilibili\.com\/x\/v2\/splash response-body-json-jq '.data|.is_ad=false|.min_interval=999999|.pull_interval=999999|.max_time=0|.show=[]|.keep_ids=[]|.list=[]'
 ^https:\/\/app\.bilibili\.com\/x\/v2\/search response-body-json-jq '.data|=map(select(.type!="recommend")|del(.search_ranking_meta))'
 ^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\/story response-body-json-jq '.data.items|=map(select(.is_ad!=true and (has("ad_info")|not) and .goto!="ad_av" and .goto!="vertical_ad"))'
 ^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index/? response-body-json-jq '.data.items|=map(select(.ad_info.is_ad_loc!=true and (.card_type|test("banner_")|not)))'
