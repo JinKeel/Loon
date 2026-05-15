@@ -14,4 +14,4 @@ hostname = api.coolapk.com
 ^https:\/\/api\.coolapk\.com\/v6\/account\/loadConfig response-body-json-jq 'del(.data[]|select(.entityId==14809 or .entityId==1002))'
 
 [Script]
-http-response ^https:\/\/api\.coolapk\.com\/v6\/main\/init script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/script/coolapk.js, requires-body=true, timeout=10, tag=广告处理
+http-response ^https:\/\/api\.coolapk\.com\/v6\/main\/init script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/script/Coolapk.js, requires-body=true, timeout=10, tag=广告处理
