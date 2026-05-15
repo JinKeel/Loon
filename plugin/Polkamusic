@@ -8,15 +8,6 @@ hostname = us.l.qq.com,bd-api.kuwo.cn,ab-bodian.kuwo.cn
 [Argument]
 VIP=switch,true,false,tag=解锁音乐
 
-[Rule]
-DOMAIN,xs.gdt.qq.com,REJECT
-DOMAIN,rpt.gdt.qq.com,REJECT
-DOMAIN,tp2p.kg.qq.com,REJECT
-DOMAIN,tmead.y.qq.com,REJECT
-DOMAIN,sdkreport.e.qq.com,REJECT
-DOMAIN,tmeadcomm.y.qq.com,REJECT
-DOMAIN,ad.tencentmusic.com,REJECT
-
 [Rewrite]
 ^https:\/\/(ab-bodian|bd-api)\.kuwo\.cn\/(abtest\/ui\/info|api\/(service\/(collect|banner\/positions|conf\/all|global\/config\/vipEnter|advert\/config)|advert\/(earning\/app\/config|free\/config)|message\/mes\/first|pay\/vip\/(invitation|lowPriceText)|play\/advert\/info|search\/topic\/word\/list)) reject-200
 ^https:\/\/us\.l\.qq\.com\/exapp response-body-json-jq '.data[].list|= map({is_empty:1, need_empty_report:1, apurl:"", cl:"0", uoid:"N/A", begintime:0, endtime:0, video_duration:0, video_timelife:0, timelife:0})'
