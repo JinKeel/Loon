@@ -1,7 +1,7 @@
 let body = $response.body;
 let obj = JSON.parse(body);
 
-if (!obj?.data || !Array.isArray(obj.data)) {
+if (!obj.data || !Array.isArray(obj.data)) {
     $done({ body });
 }
 
@@ -34,17 +34,13 @@ obj.data.forEach(item => {
 
     if (item.entityId === 6390) {
         ID = [420, 417, 415, 1710, 2759];
-    }
-
-    else if (item.entityId === 20305) {
+    } else if (item.entityId === 20305) {
         ID = [790, 813, 2258, 2894, 2191];
-    }
-
-    else if (item.entityId === 20131) {
+    } else if (item.entityId === 20131) {
         ID = [2953, 1175, 2892, 2893, 2018];
     }
 
-    if (ID.length > 0 && item.entities) {
+    if (ID.length > 0 && item.entities && Array.isArray(item.entities)) {
 
         let arr = [];
 
