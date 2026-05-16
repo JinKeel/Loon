@@ -1,5 +1,5 @@
 #!name = 波点音乐
-#!desc = 更新时间2026-05-16
+#!desc = 更新时间2026-05-17
 #!icon = https://img.51wan.com/up/2025-12/2025035499939849.png
 
 [Mitm]
@@ -10,11 +10,11 @@ VIP=switch,true,false,tag=解锁音乐
 
 [Rewrite]
 ^https:\/\/(ab-bodian|bd-api)\.kuwo\.cn\/(abtest\/ui\/info|api\/(service\/(collect|banner\/positions|global\/config\/vipEnter|advert\/config)|advert\/(earning\/app\/config|free\/config)|message\/mes\/first|pay\/vip\/(invitation|lowPriceText)|play\/advert\/info|search\/topic\/word\/list)) reject-200
-^https:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/scene mock-response-body data-type=json data="{"code":200,"data":{"thirdSchemeWhiteList":[],"adsNotFinishVipPop4DayInterval":999999,"iosAudioSessionManager_ErrAlert":false,"iosSystemBackEnable":true,"audioLyricMaxCacheTimeDateDays":7,"iosBufferingCulcalteEnable":false,"AllDialogIntervals":999999,"playingPageCollectPagList":[],"iapNewConfig":{},"iosP2PCacheEnable":0,"iosP2pEnableSendDataLimit":0,"audioUrlCacheTimeInterval":1200000,"playFeedDayCount":5,"showShopEntry":false,"iapConfig":{},"offlineFavTipsGuide":1,"iosDownloadFileReceiveCount":20,"idolTabShow":false,"downLoadZoneConfig":{"freeTimeRemindTip":0},"warmStartDialog":{"count":0,"interval":999999},"playingPageOutCommentConfig":{"interval":3,"defaultCommentIndex":true}},"msg":"success","profileId":"site"}" status-code=200
 ^https:\/\/bd-api\.kuwo\.cn\/api\/service\/home\/index response-body-json-jq '.data.moduleList|=map(select(.id==1or.id==2or.id==3or.id==9or.id==10or.id==11or.id==12or.id==13))'
 ^https:\/\/bd-api\.kuwo\.cn\/api\/play\/sound\/effect\/list response-body-json-jq '.data.list|=map(.vipType="free"|.audition=0)'
 ^https:\/\/bd-api\.kuwo\.cn\/api\/voice\/room\/v2\/sidebar response-body-json-jq '.data.sidebar|=map(select(.id==4or.id==30or.id==3or.id==10or.id==31)|.coverGif=""|.name=(if .id==4then"驾车节奏"elif .id==30then"轻松通勤"elif .id==3then"夜间情绪"elif .id==10then"助眠时刻"elif .id==31then"微醺氛围"else.name end))'
-^https:\/\/bd-api\.kuwo\.cn\/api\/service\/conf\/all response-body-json-jq '.data.groupSign.adExitChange=0|.data.groupSign.recommendTest=0|.data.groupSign.adGuideTest=0|.data.groupSign.adStartAppDialog=0|.data.groupSign.playTips=0|.data.groupSign.newUserLogin=0|.data.conf.p2pEnable=false|.data.conf.audioClipEnable=false|.data.conf.videoClipEnable=false|.data.conf.flowControlConfig.p2pEnable=false|.data.conf.flowControlConfig.videoClipEnable=false|.data.conf.enableQrcodeEnter=false|.data.conf.ringbackMusic=0|.data.conf.showBottomBtnName=1|.data.conf.collectCart=[]'
+^https:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/scene response-body-json-jq '.data|={showShopEntry:false,idolTabShow:false}'
+^https:\/\/bd-api\.kuwo\.cn\/api\/service\/conf\/all response-body-json-jq '.data|={groupSign:{adExitChange:0,treeHoleFeedPercent:0,recommendTest:0,adGuideTest:0,adStartAppDialog:0,playTips:0,newUserLogin:0,showBottomBtnName:0,mvPlayAniCount:0,homePagePosition:0,freeLowUserHead:0,immersivePlay:0,freeDynamicChange:0,freeLowUserStyle:0},conf:{delayPopSecond:0,blueDetachedToastMinute:0,audioInterruptToastMinute:0,audioInterruptAlertMinute:0,blueInterruptToastMinute:0,adGuidePopCount:0,adDownListOpen:0}}'
 ^https:\/\/bd-api\.kuwo\.cn\/api/ucenter\/users\/(pub|login) response-body-json-jq '.data.payInfo|=(.isSignedBoolean=true|.isCtVipBoolean=true|.isCtPayVipBoolean=true|.isVip=1|.isVipBoolean=true|.isBigVipBoolean=true|.isBigPayVipBoolean=true|.isPayVipBoolean=true|.isActVipBoolean=true|.isSigned=1|.isFreeCtVip=true|.vipType=1|.payVipType=1|.actVipType=1|.signType=1|.ctExpireDate=2524608000000|.bigExpireDate=2524608000000|.bigPayExpireDate=2524608000000|.payExpireDate=2524608000000|.actExpireDate=2524608000000|.ctPayExpireDate=2524608000000|.expireDate=2524608000000)|.data.userInfo|=(.isVip=1|.vipType=1|.authType=1|.payVipType=1)'
 
 [Script]
