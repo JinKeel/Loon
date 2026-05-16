@@ -1,5 +1,5 @@
 #!name = 波点音乐
-#!desc = 更新时间2026-05-15
+#!desc = 更新时间2026-05-16
 #!icon = https://img.51wan.com/up/2025-12/2025035499939849.png
 
 [Mitm]
@@ -12,7 +12,7 @@ VIP=switch,true,false,tag=解锁音乐
 ^https:\/\/(ab-bodian|bd-api)\.kuwo\.cn\/(abtest\/ui\/info|api\/(service\/(collect|banner\/positions|conf\/all|global\/config\/vipEnter|advert\/config)|advert\/(earning\/app\/config|free\/config)|message\/mes\/first|pay\/vip\/(invitation|lowPriceText)|play\/advert\/info|search\/topic\/word\/list)) reject-200
 ^https:\/\/bd-api\.kuwo\.cn\/api\/play\/sound\/effect\/list response-body-json-jq '.data.list|=map(.vipType="free"|.audition=0)'
 ^https:\/\/bd-api\.kuwo\.cn\/api\/voice\/room\/v2\/sidebar response-body-json-jq '.data.sidebar|=map(select(.id==4or.id==30or.id==3or.id==10or.id==31)|.coverGif=""|.name=(if .id==4then"驾车节奏"elif .id==30then"轻松通勤"elif .id==3then"夜间情绪"elif .id==10then"助眠时刻"elif .id==31then"微醺氛围"else.name end))'
-^https:\/\/bd-api\.kuwo\.cn\/api\/service\/home\/index response-body-json-jq '.data.moduleList|=map(select(.type==4or.type==3or.type==10or.type==7or.type==5))'
+^https:\/\/bd-api\.kuwo\.cn\/api\/service\/home\/index response-body-json-jq '.data.moduleList|=map(select(.type==4or.type==3or.type==10or.type==7or.type==5or.type==9))'
 ^https:\/\/bd-api\.kuwo\.cn\/api\/service\/global\/config\/scene response-body-json-jq '.data|.idolTabShow=false|.showShopEntry=false|.playingPageCollectPagList=[]|.adsNotFinishVipPop4DayInterval=999999|.AllDialogIntervals=999999|.warmStartDialog.count=0|.warmStartDialog.interval=999999|.playingPageOutCommentConfig.interval=999999|.downLoadZoneConfig.freeTimeRemindTip=0'
 ^https:\/\/bd-api\.kuwo\.cn\/api/ucenter\/users\/(pub|login) response-body-json-jq '.data.payInfo|=(.isSignedBoolean=true|.isCtVipBoolean=true|.isCtPayVipBoolean=true|.isVip=1|.isVipBoolean=true|.isBigVipBoolean=true|.isBigPayVipBoolean=true|.isPayVipBoolean=true|.isActVipBoolean=true|.isSigned=1|.isFreeCtVip=true|.vipType=1|.payVipType=1|.actVipType=1|.signType=1|.ctExpireDate=2524608000000|.bigExpireDate=2524608000000|.bigPayExpireDate=2524608000000|.payExpireDate=2524608000000|.actExpireDate=2524608000000|.ctPayExpireDate=2524608000000|.expireDate=2524608000000)|.data.userInfo|=(.isVip=1|.vipType=1|.authType=1|.payVipType=1)'
 
