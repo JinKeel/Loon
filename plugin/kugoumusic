@@ -1,5 +1,5 @@
 #!name = 酷狗音乐概念版
-#!desc = 更新时间2026-05-17
+#!desc = 更新：2026-05-17
 #!icon = https://img.51wan.com/up/2025-12/2025997467696142.png
 
 [Mitm]
@@ -13,4 +13,4 @@ hostname = gateway.kugou.com,adservice.kugou.com
 ^https:\/\/gateway\.kugou\.com\/youth\/v1\/channel\/tab_list response-body-json-jq '.data.list|=map(select(.tab_id!=-1 and.tab_id!=2))'
 
 [Script]
-http-response ^https:\/\/gateway\.kugou\.com\/youth\/v1\/ab\/tmeab\?ab_source script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/script/kugou.js, requires-body=true, timeout=10, tag=广告处理
+http-response ^https:\/\/gateway\.kugou\.com\/youth\/v1\/ab\/tmeab\?ab_source script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/javascript/kugou.js, requires-body=true, timeout=10, tag=广告处理
