@@ -1,5 +1,5 @@
 /*
-Loon 节点解析器 更新时间2026.05.13
+Loon 节点解析器 更新时间2026.05.17
 
 功能：
 1. 节点名称重命名
@@ -13,42 +13,39 @@ Loon 节点解析器 更新时间2026.05.13
 完整示例：name=香港>HK+日本>JP&del=倍率|专线&keep=香港|日本&drop=官网|到期&emoji=1
 ━━━━━━━━━━━━━━━━━━
 参数说明：
-
 name 节点批量改名
-
 示例:
 name=香港>HK+日本>JP
 ━━━━━━━━━━━━━━━━━━
 del 删除节点名称中的字符
-
 示例:
 del=倍率|专线
 ━━━━━━━━━━━━━━━━━━
 keep 仅保留包含指定关键词的节点
-
 示例:
 keep=香港|日本
 ━━━━━━━━━━━━━━━━━━
 drop 删除包含指定关键词的节点
-
 示例:
 drop=官网|到期
 ━━━━━━━━━━━━━━━━━━
 emoji 控制国旗
-
 示例:
 emoji=1 自动添加国旗
 emoji=0 删除所有国旗
 ━━━━━━━━━━━━━━━━━━
 清除指定参数持久化：
-
 示例:
 name=$
+━━━━━━━━━━━━━━━━━━
+读取本地储存持久化：
+示例:
+loon_写自己的订阅地址
 ━━━━━━━━━━━━━━━━━━
 */
 
 const Loon_Type=$resourceType;
-const Loon_Key="loon_parser_lite_"+encodeURIComponent(typeof $resourceUrl!="undefined"&&$resourceUrl?String($resourceUrl):"default_parser");
+const Loon_Key="loon_"+(typeof $resourceUrl!="undefined"&&$resourceUrl?String($resourceUrl):"default_parser");
 
 let Loon={name:"",del:"",keep:"",drop:"",emoji:""};
 
