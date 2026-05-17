@@ -6,7 +6,6 @@ if (!obj.data || !Array.isArray(obj.data)) {
 }
 
 obj.data = obj.data.filter(item => item.entityId !== 24455);
-
 obj.data.forEach(item => {
 
     if (item.extraDataArr) {
