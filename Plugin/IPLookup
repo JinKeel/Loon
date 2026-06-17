@@ -1,0 +1,7 @@
+#!name = IP查询
+#!desc = 更新2026-06-17-14:30
+#!icon = https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a0/5a/61/a05a618b-c0c5-2aef-f4d1-cf8b72f2b653/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.png
+#!system_version = 15
+
+[Script]
+generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/iPinfo.js, timeout=10, tag=IP查询, img-url=globe.asia.australia
