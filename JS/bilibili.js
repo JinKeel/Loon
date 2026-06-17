@@ -53,7 +53,7 @@ if (/^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2/i.test(url)) {
         ];
         obj.data.bottom = (obj.data.bottom || []).filter(v => [177, 179, 181].includes(v.id));
         obj.data.top = (obj.data.top || []).filter(v => v.id == 3510);
-        obj.data.top_more = [];
+        obj.data.top_more = (obj.data.top || []).filter(v => v.id == 3504);
         obj.data.top_left = [];
     }
     body = JSON.stringify(obj);
