@@ -1,0 +1,11 @@
+#!name = 节点订阅管理
+#!desc = 更新2026-06-17-14:30
+#!icon = https://raw.githubusercontent.com/cc63/ICON/main/Sub-Store.png
+#!system_version = 15
+
+[Script]
+http-request ^https:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))) script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-1.min.js, requires-body=true, tag=后端
+http-request ^https:\/\/sub\.store script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-0.min.js, requires-body=true, tag=前端
+
+[MITM]
+hostname = sub.store
