@@ -23,19 +23,16 @@ if (/us\.l\.qq\.com\/exapp/i.test(url)) {
 
 if (/api\/voice\/room\/v2\/sidebar/i.test(url)) {
     var obj = JSON.parse(body);
-    if (obj.data && Array.isArray(obj.data.sidebar)) {
-        var names = {
-            4: "开车必听",
-            30: "通勤时刻",
-            31: "微醺夜色",
-            3: "深夜思考"
-        };
-        obj.data.sidebar = obj.data.sidebar.filter(function (item) {
-            return item && names[item.id];
-        });
+    if (obj.data) {        
+        obj.data.sidebar = obj.data.sidebar.filter(item => [4,30,31,3].includes(item.id));        
         obj.data.sidebar.forEach(function (item) {
             item.coverGif = "";
-            item.name = names[item.id];
+            switch(item.id){
+                case 4: item.name = "开车必听"; break;
+                case 30: item.name = "通勤时刻"; break;
+                case 31: item.name = "微醺夜色"; break;
+                case 3: item.name = "深夜思考"; break;
+            }
         });
     }
     body = JSON.stringify(obj);
@@ -65,11 +62,11 @@ if (/api\/service\/global\/config\/scene/i.test(url)) {
 }
 
 if (/api\/service\/home\/index/i.test(url)) {
-    var obj = JSON.parse(body);
-    if (obj.data && Array.isArray(obj.data.moduleList)) {
-        obj.data.moduleList = obj.data.moduleList.filter(function (item) {
-            return item && ![1, 2, 6, 8, 12].includes(item.type);
-        });
+    let obj = JSON.parse(body);
+    if (obj.data) {
+        obj.data.moduleList = obj.data.moduleList.filter(item =>
+            ![1, 2, 6, 8, 12].includes(item.type)
+        );
     }
     body = JSON.stringify(obj);
     $done({ body });
@@ -92,7 +89,7 @@ if (/api\/service\/music\/info/i.test(url)) {
 
 if (/api\/play\/music\/v2\/checkRight/i.test(url)) {
     var obj = JSON.parse(body);
-    var data = {
+    var boy = {
         reqId: obj.reqId,
         code: 200,
         data: { status: 7 },
@@ -100,7 +97,7 @@ if (/api\/play\/music\/v2\/checkRight/i.test(url)) {
         profileId: "site",
         curTime: obj.curTime
     };
-    body = JSON.stringify(data);
+    body = JSON.stringify(boy);
     $done({ body });
 }
 
@@ -116,7 +113,7 @@ if (/api\/play\/music\/v2\/audioUrl/i.test(url)) {
             var kuwo = JSON.parse(data);
             var data = {
                 reqId: obj.reqId,
-                 data: {
+                data: {
                     format: kuwo.data.format,
                     bitrate: kuwo.data.bitrate,
                     duration: kuwo.data.duration,
@@ -167,11 +164,11 @@ if (/api\/ucenter\/users\/(pub|login)/i.test(url)) {
             pay.expireDate = 2524608000000;
         }
         if (obj.data.userInfo) {
-            var user = obj.data.userInfo;
-            user.vipType = 1;
-            user.isVip = 1;
-            user.payVipType = 1;
-            user.authType = 1;
+            var pay = obj.data.userInfo;
+            pay.vipType = 1;
+            pay.isVip = 1;
+            pay.payVipType = 1;
+            pay.authType = 1;
         }
     }
     body = JSON.stringify(obj);
