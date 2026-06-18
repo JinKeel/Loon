@@ -5,7 +5,7 @@ if (/^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(list|show|event\/list2)/i.te
     var obj = JSON.parse(body);
     if (obj.data) {
         obj.data.show = [];
-        obj.data.list = [];
+        obj.data.list = [{"is_ad":true,"duration":5}];
         obj.data.keep_ids = [];
         obj.data.max_time = 0;
         obj.data.min_interval = 315360000;
