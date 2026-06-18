@@ -5,7 +5,7 @@ if (/^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(list|show|event\/list2)/i.te
     var obj = JSON.parse(body);
     if (obj.data) {
         obj.data.show = [{"ad_cb":""}];
-        obj.data.list = [{"is_ad":false,"duration":5,"ad_cb":"", "jump_image_url":"", "schema_image_url":""}];
+        obj.data.list = [{"is_ad":false,"duration":0,"ad_cb":"", "jump_image_url":"", "schema_image_url":""}];
         obj.data.keep_ids = [];
         obj.data.max_time = 0;
     }
