@@ -6,6 +6,10 @@ if (/^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(list|show|event\/list2)/i.te
     if (obj.data) {
         obj.data.show = [];
         obj.data.list = [];
+        obj.data.keep_ids = [];
+        obj.data.max_time = 0;
+        obj.data.min_interval = 315360000;
+        obj.data.pull_interval = 315360000;
     }
     body = JSON.stringify(obj);
     $done({ body });
