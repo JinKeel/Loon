@@ -4,12 +4,10 @@ var body = $response.body;
 if (/^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(list|show|event\/list2)/i.test(url)) {
     var obj = JSON.parse(body);
     if (obj.data) {
-        obj.data.show = [];
-        obj.data.list = [{"is_ad":true,"duration":5}];
+        obj.data.show = [{"ad_cb":""}];
+        obj.data.list = [{"is_ad":false,"duration":5,"ad_cb":"", "jump_image_url":"", "schema_image_url":""}];
         obj.data.keep_ids = [];
         obj.data.max_time = 0;
-        obj.data.min_interval = 315360000;
-        obj.data.pull_interval = 315360000;
     }
     body = JSON.stringify(obj);
     $done({ body });
