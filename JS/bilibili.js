@@ -6,10 +6,8 @@ if (/^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo/i.test(url)) {
     if (obj.data ) {
         obj.data.vip.status = 1;                                         
 	    obj.data.vip.type = 2;                             
-        obj.data.vip.due_date = 2524608000000;
-        
-        if (obj.data.vip.super_vip) {
-            obj.data.vip.super_vip.is_super_vip = true;
+        obj.data.vip.due_date = 2524608000000; 
+        obj.data.vip.super_vip.is_super_vip = true;
         }
     }
     body = JSON.stringify(obj);
