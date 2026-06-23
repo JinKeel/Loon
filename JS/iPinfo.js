@@ -35,7 +35,7 @@ $httpClient.get(
 		<span style="color:#AAA;">─────────────────────</span><br>
 		
 		<span style="font-size:15px; font-weight:500;color:#7077FF;">
-        节点：${nodeName}
+        节点${nodeName}
     </span>
     </p>`;
 
