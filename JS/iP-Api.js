@@ -33,7 +33,7 @@ $httpClient.get(
     <span style="color:#AAA;">─────────────────────</span><br>
 
     <span style="font-size:15px; font-weight:500;">
-        位置：${ipApi.country} ${ipApi.countryCode}
+        地区：${ipApi.country}${ipApi.countryCode}
     </span><br>
 
     <span style="font-size:15px; font-weight:500;">
