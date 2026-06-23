@@ -18,7 +18,7 @@ $httpClient.get(
 <p  style="text-align:center; font-family:-apple-system; line-height:1.3;">
     <br>
 
-    <span style="font-size:19px; font-weight:600; color:#1599FF; font-family:Menlo;">
+    <span style="font-size:18px; font-weight:600; color:#1599FF; font-family:Menlo;">
         ${ipwho.type} ${ipwho.ip}
     </span><br>
 		
