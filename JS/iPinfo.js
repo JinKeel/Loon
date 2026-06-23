@@ -25,15 +25,17 @@ $httpClient.get(
 		<span style="color:#AAA;">─────────────────────</span><br>
 
     <span style="font-size:15px; font-weight:500;">
-        落地：${ipwho.country_code} ${ipwho.country}
+        落地：${ipwho.continent} ${ipwho.country} ${ipwho.country_code}
     </span><br>
 
     <span style="font-size:15px; font-weight:500;">
         运营：${ipwho.connection.isp}
     </span><br>
 		
-		<span style="font-size:15px; font-weight:500;">
-        策略：${nodeName}
+		<span style="color:#AAA;">─────────────────────</span><br>
+		
+		<span style="font-size:15px; font-weight:500;color:#7077FF;">
+        节点：${nodeName}
     </span>
     </p>`;
 
