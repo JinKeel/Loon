@@ -4,4 +4,4 @@
 #!system_version = 15
 
 [Script]
-generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/iPinfo.js, timeout=10, tag=IP查询, img-url=location.circle.fill
+generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/iP-Api.js, timeout=6, tag=IP查询, img-url=location.circle.fill
