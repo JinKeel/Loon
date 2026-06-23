@@ -3,7 +3,7 @@ const nodeName = inputParams.nodeInfo.name;
 
 $httpClient.get(
     { url: "http://ip-api.com/json/?lang=zh-CN", timeout: 5000, node: nodeName },
-    function (err, res, data) {
+  function (err, res, data) {
         if (err) {
             $done({
                 title: "查询超时",
@@ -12,9 +12,9 @@ $httpClient.get(
             return;
         }
 
-        const ipwho = JSON.parse(data);
+        const ip-api = JSON.parse(data);
 
-        if (ipwho.status !== "success") {
+        if (ip-api.status !== "success") {
             $done({
                 title: "查询失败",
                 message: "接口返回异常或返回无内容"
@@ -27,21 +27,21 @@ $httpClient.get(
     <br>
 
     <span style="font-size:17.2px; font-weight:600;color:#1599FF;">
-        IP ${ipwho.query}
+        IP ${ip-api.query}
     </span>
 
     <span style="color:#AAA;">─────────────────────</span><br>
 
     <span style="font-size:15px; font-weight:500;">
-        位置：${ipwho.country} ${ipwho.countryCode}
+        位置：${ip-api.country} ${ip-api.countryCode}
     </span><br>
 
     <span style="font-size:15px; font-weight:500;">
-        城市：${ipwho.regionName}
+        城市：${ip-api.regionName}
     </span><br>
 
     <span style="font-size:15px; font-weight:500;">
-        运营：${ipwho.isp}
+        运营：${ip-api.isp}
     </span><br>
 
     <span style="color:#AAA;">─────────────────────</span><br>
