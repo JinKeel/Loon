@@ -15,7 +15,7 @@ $httpClient.get(
         const ipwho = JSON.parse(data);
 
         const html = `
-<p  style="text-align:center; font-family:-apple-system; line-height:1.5;">
+<p  style="text-align:center; font-family:-apple-system; line-height:1.3;">
     <br>
 
     <span style="font-size:19px; font-weight:600; color:#1599FF; font-family:Menlo;">
