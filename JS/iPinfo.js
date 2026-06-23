@@ -15,31 +15,27 @@ $httpClient.get(
         const ipwho = JSON.parse(data);
 
         const html = `
-<p  style="text-align:center; font-family:-apple-system; line-height:1.3;">
+<p  style="text-align:center; font-family:-apple-system; line-height:1.8;">
     <br>
 		
 		<span style="font-size:17.2px; font-weight:600;color:#1599FF;">
         IP ${ipwho.ip}
-    </span><br>
+    </span>
 		
-		<span style="color:#DDD;">─────────────────────</span><br>
+		<span style="color:#AAA;">─────────────────────</span><br>
 
     <span style="font-size:15px; font-weight:500;">
         落地：${ipwho.country_code} ${ipwho.country}
     </span><br>
-		
-		<span style="color:#DDD;">─────────────────────</span><br>
 
     <span style="font-size:15px; font-weight:500;">
         运营：${ipwho.connection.isp}
     </span><br>
 		
-		<span style="color:#DDD;">─────────────────────</span><br>
-		
 		<span style="font-size:15px; font-weight:500;">
         策略：${nodeName}
     </span>
-</p>`;
+    </p>`;
 
         $done({
             title: "查询结果",
