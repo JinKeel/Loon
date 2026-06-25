@@ -1,7 +1,7 @@
 #!name = JSON工具
 #!desc = 更新2026-06-25-22:01
 #!icon = https://play-lh.googleusercontent.com/2n_bKugEEaMc97XQLtLOXq740OBHwK5BnCGnOFrSdZ1A2TLID7KTdjWRYU9sikKOjZk6l9C-7S-h4DjIpvBC4A
-#!homepage = 访问地址 http://loon.json/html
+#!openUrl = http://loon.json/html
 #!system_version = 15
 
 [Script]
