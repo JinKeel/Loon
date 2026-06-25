@@ -1,8 +1,0 @@
-#!name = JSON工具
-#!desc = 更新2026-06-25-22:01
-#!icon = https://play-lh.googleusercontent.com/2n_bKugEEaMc97XQLtLOXq740OBHwK5BnCGnOFrSdZ1A2TLID7KTdjWRYU9sikKOjZk6l9C-7S-h4DjIpvBC4A
-#!openUrl = http://loon.json/html
-#!system_version = 15
-
-[Script]
-http-request ^http:\/\/loon\.json\/html script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/JsonLens.html, requires-body=true, tag=JSON
