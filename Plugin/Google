@@ -1,0 +1,10 @@
+#!name = 网页深色
+#!desc = 让网页跟随系统自动深色
+#!icon = https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/b5/3a/2b/b53a2b18-7238-0d30-3435-fc6471e1a34d/SuperG_ios26-0-0-1x_U007epad-0-0-0-1-0-0-sRGB-0-0-0-85-220.png/512x512bb.png
+#!system_version = 15
+
+[Script]
+http-response ^https:\/\/www\.google\.com\/ script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/Google.js, requires-body=true, timeout=5, tag=Google网页深色
+
+[Mitm]
+hostname = www.google.com
