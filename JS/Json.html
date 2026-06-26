@@ -1,4 +1,4 @@
-const html = `<!DOCTYPE html>
+Const html = `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -277,12 +277,8 @@ const html = `<!DOCTYPE html>
             e.stopPropagation();
             if (!selectedPathText) return;
             
-            let cleanedPath = selectedPathText
-                .replace(/\\.\\\[\\d+\\\]/g, '')  
-                .replace(/\\\[\\d+\\\]\\./g, '')  
-                .replace(/\\\[\\d+\\\]/g, '');    
-
-            const finalCopyContent = "路径: " + cleanedPath + "\\n键值: " + selectedValueText;
+            // 已修复：去掉了原来会误删 [0] 和 . 的正则过滤，直接使用完整路径
+            const finalCopyContent = "路径: " + selectedPathText + "\\n键值: " + selectedValueText;
             
             const textAreaFallback = document.createElement("textarea");
             textAreaFallback.value = finalCopyContent;
