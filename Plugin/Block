@@ -4,8 +4,8 @@
 #!system_version = 15
 
 [Rule]
-DOMAIN-KEYWORD, gdt.qq.com, REJECT
-DOMAIN-KEYWORD, e.qq.com, REJECT
+DOMAIN-SUFFIX, kg.qq.com,REJECT
+DOMAIN-SUFFIX, m.qq.com,REJECT
 DOMAIN-SUFFIX, ad.qq.com, REJECT
 DOMAIN-SUFFIX, ad.tencentmusic.com, REJECT
 DOMAIN-SUFFIX, adping.qq.com, REJECT
@@ -42,6 +42,8 @@ DOMAIN-SUFFIX, u.gdt.qq.com, REJECT
 DOMAIN-SUFFIX, vmind.qq.com, REJECT
 DOMAIN-SUFFIX, wa.gtimg.com, REJECT
 DOMAIN-SUFFIX, win.music.qq.com, REJECT
+DOMAIN-KEYWORD, gdt.qq.com, REJECT
+DOMAIN-KEYWORD, e.qq.com, REJECT
 
 DOMAIN-KEYWORD, -pangle, REJECT
 DOMAIN-KEYWORD, ads.pangle, REJECT
