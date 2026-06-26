@@ -1,0 +1,456 @@
+const html = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>JSON分析工具</title>
+    <style>
+        :root {
+            --bg-main: #ffffff;          
+            --bg-tree: #f2f2f7;          
+            --text-main: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent: #0071e3;
+            --accent-light: rgba(0, 113, 227, 0.08);
+            --border: #d2d2d7;
+            --panel-border: rgba(0, 0, 0, 0.08);
+            
+            --key-color: #881280;
+            --string-color: #267f43;
+            --number-color: #1a01cc;
+            --boolean-color: #a15200;
+            --null-color: #757575;
+            
+            --indent: 24px;
+            --line-color: rgba(0, 0, 0, 0.12);
+            --textarea-bg: #f5f5f7;      
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-main: #161617;
+                --bg-tree: #1c1c1e;      
+                --text-main: #f5f5f7;
+                --text-secondary: #8e8e93;
+                --accent: #0a84ff;
+                --accent-light: rgba(10, 132, 255, 0.15);
+                --border: #3a3a3c;
+                --panel-border: rgba(255, 255, 255, 0.05);
+                
+                --key-color: #ff7ab2;    
+                --string-color: #7ee787; 
+                --number-color: #79c0ff; 
+                --boolean-color: #ffa657;
+                --null-color: #a3a3a3;
+                
+                --line-color: rgba(255, 255, 255, 0.15);
+                --textarea-bg: #242426;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
+            margin: 0; padding: 0; background-color: var(--bg-main); color: var(--text-main);
+            display: flex; flex-direction: column; 
+            min-height: 100vh; 
+            transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+        }
+
+        .top-panel {
+            background-color: var(--bg-main); 
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+            display: flex; flex-direction: column; gap: 12px; z-index: 10;
+            transition: background-color 0.3s ease;
+        }
+
+        textarea {
+            width: 100%; height: 110px; border: 1px solid var(--border); border-radius: 12px;
+            padding: 12px; font-family: "SF Mono", Menlo, monospace; font-size: 13px; line-height: 1.5;
+            resize: none; background-color: var(--textarea-bg); color: var(--text-main); outline: none; 
+            transition: all 0.25s ease;
+        }
+
+        textarea:focus {
+            border-color: var(--accent);
+            background-color: var(--bg-main);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .button-group { display: flex; justify-content: flex-end; gap: 10px; align-items: center; }
+        
+        button { font-family: inherit; font-size: 14px; font-weight: 500; padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; transition: all 0.15s ease; }
+        
+        .btn-primary { background-color: var(--accent); color: white; }
+        .btn-primary:active { opacity: 0.85; }
+
+        .btn-secondary { background-color: var(--border); color: var(--text-main); }
+        .btn-secondary:active { opacity: 0.7; }
+
+        .main-content { 
+            flex: 1; 
+            overflow-x: auto;
+            overflow-y: visible;
+            background-color: var(--bg-tree);
+            transition: background-color 0.3s ease;
+        }
+        
+        .tree-container-box {
+            padding: 24px;
+            min-width: max-content; 
+            font-family: "SF Mono", Menlo, Monaco, monospace; font-size: 13px; line-height: 2;
+        }
+
+        .path-popover {
+            position: absolute;
+            z-index: 1000;
+            background-color: var(--bg-main); 
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            padding: 8px 12px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            pointer-events: auto;
+            animation: popIn 0.15s ease-out;
+        }
+        
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.95) translateY(5px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .popover-info-box {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            max-width: 280px;
+        }
+
+        .popover-line {
+            font-family: "SF Mono", monospace;
+            font-size: 11px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .popover-line span { font-weight: bold; color: var(--text-secondary); }
+
+        .popover-btn {
+            background-color: var(--accent);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            height: 100%;
+        }
+
+        .tree-root { position: relative; padding-left: 0; }
+        .tree-item { position: relative; padding-left: var(--indent); }
+
+        .tree-root > .tree-item::before { display: none; }
+        .tree-root > .tree-item::after { display: none; }
+        .tree-root > .tree-item { padding-left: 0; }
+
+        .tree-item .tree-item::before {
+            content: ""; position: absolute;
+            left: calc(var(--indent) / 2); top: 0; bottom: 0; width: 1px;
+            background-color: var(--line-color);
+        }
+
+        .tree-item:last-child::before { height: 14px; bottom: auto; }
+
+        .tree-item .tree-item::after {
+            content: ""; position: absolute;
+            left: calc(var(--indent) / 2); top: 14px;
+            width: calc(var(--indent) / 2 + 4px); 
+            height: 1px;
+            background-color: var(--line-color);
+        }
+
+        .row-content { 
+            display: flex; align-items: center; padding: 2px 8px; border-radius: 6px;
+            position: relative; cursor: pointer; user-select: none; transition: background-color 0.1s ease;
+            width: max-content; 
+            min-width: 100%;
+        }
+        .row-content:hover { background-color: rgba(0, 0, 0, 0.04); }
+        @media (prefers-color-scheme: dark) {
+            .row-content:hover { background-color: var(--textarea-bg); }
+        }
+        .row-content.active-row { background-color: var(--accent-light) !important; }
+
+        .arrow-box { width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; margin-right: 4px; z-index: 2; }
+
+        .arrow-shape {
+            width: 8px; height: 7px; background-color: var(--text-secondary);
+            clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+            transition: transform 0.12s ease-out, background-color 0.12s ease;
+            transform-origin: 50% 50%;
+        }
+
+        .collapsed > .tree-item { display: none; }
+        .collapsed > .row-content .arrow-shape { transform: rotate(-90deg); background-color: var(--accent); }
+
+        .arrow-spacer { width: 20px; }
+
+        .key-name { color: var(--key-color); font-weight: 600; margin-right: 4px; white-space: nowrap; }
+        .row-content.active-row .key-name { color: var(--accent); }
+
+        .val-str { color: var(--string-color); white-space: pre; }
+        .val-num { color: var(--number-color); white-space: nowrap; }
+        .val-bool { color: var(--boolean-color); white-space: nowrap; }
+        .val-null { color: var(--null-color); white-space: nowrap; }
+        
+        .error-tip { color: #ff3b30; background-color: rgba(255, 59, 48, 0.08); padding: 14px; border-radius: 10px; border: 1px solid rgba(255, 59, 48, 0.2); margin: 24px; }
+    </style>
+</head>
+<body>
+
+    <div class="top-panel">
+        <div class="input-wrapper">
+            <textarea id="jsonTextarea" placeholder="请在此处粘贴或输入 JSON 数据..."></textarea>
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" id="clearBtn">清空</button>
+            <button class="btn-primary" id="parseBtn">构建层级树</button>
+        </div>
+    </div>
+
+    <div class="path-popover" id="pathPopover">
+        <div class="popover-info-box">
+            <div class="popover-line"><span>路径:</span> <span id="popoverPathText" style="color:var(--text-main); font-weight:normal;"></span></div>
+            <div class="popover-line"><span>键值:</span> <span id="popoverValueText" style="color:var(--text-main); font-weight:normal;"></span></div>
+        </div>
+        <button class="popover-btn" id="popoverCopyBtn">复制</button>
+    </div>
+
+    <div class="main-content">
+        <div class="tree-container-box" id="treeOutput">
+            <span style="color: var(--text-secondary);">暂无数据，请在上方输入 JSON 并点击构建。</span>
+        </div>
+    </div>
+
+    <script>
+        let rawTargetJson = null;
+        let selectedPathText = "";
+        let selectedValueText = ""; 
+
+        const parseBtn = document.getElementById('parseBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const textarea = document.getElementById('jsonTextarea');
+        const output = document.getElementById('treeOutput');
+        
+        const popover = document.getElementById('pathPopover');
+        const popoverPathText = document.getElementById('popoverPathText');
+        const popoverValueText = document.getElementById('popoverValueText');
+        const popoverCopyBtn = document.getElementById('popoverCopyBtn');
+
+        parseBtn.addEventListener('click', parseJsonToTree);
+        
+        clearBtn.addEventListener('click', () => {
+            textarea.value = '';
+            output.innerHTML = '<span style="color: var(--text-secondary);">暂无数据，请在上方输入 JSON 并点击构建。</span>';
+            hidePopover();
+            rawTargetJson = null;
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.row-content') && !e.target.closest('#pathPopover')) {
+                hidePopover();
+            }
+        });
+
+        popoverCopyBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!selectedPathText) return;
+            
+            let cleanedPath = selectedPathText
+                .replace(/\\.\\\[\\d+\\\]/g, '')  
+                .replace(/\\\[\\d+\\\]\\./g, '')  
+                .replace(/\\\[\\d+\\\]/g, '');    
+
+            const finalCopyContent = "路径: " + cleanedPath + "\\n键值: " + selectedValueText;
+            
+            const textAreaFallback = document.createElement("textarea");
+            textAreaFallback.value = finalCopyContent;
+            textAreaFallback.style.top = "0";
+            textAreaFallback.style.left = "0";
+            textAreaFallback.style.position = "fixed";
+            textAreaFallback.style.opacity = "0";
+            document.body.appendChild(textAreaFallback);
+            
+            textAreaFallback.focus();
+            textAreaFallback.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    popoverCopyBtn.innerText = "已复制 ✓";
+                    popoverCopyBtn.style.backgroundColor = "#34c759";
+                    setTimeout(() => {
+                        popoverCopyBtn.innerText = "复制";
+                        popoverCopyBtn.style.backgroundColor = "";
+                    }, 1000);
+                } else {
+                    alert("复制失败");
+                }
+            } catch (err) {
+                alert("浏览器暂不支持该复制方式。");
+            }
+            document.body.removeChild(textAreaFallback);
+        });
+
+        function hidePopover() {
+            popover.style.display = 'none';
+            selectedPathText = "";
+            selectedValueText = "";
+            document.querySelectorAll('.row-content').forEach(el => el.classList.remove('active-row'));
+        }
+
+        function parseJsonToTree() {
+            const val = textarea.value.trim();
+            if (!val) {
+                output.innerHTML = '<div class="error-tip">输入不能为空，请输入有效的 JSON 字符串。</div>';
+                return;
+            }
+            try {
+                rawTargetJson = JSON.parse(val);
+                output.innerHTML = '';
+                hidePopover();
+                const rootWrapper = document.createElement('div');
+                rootWrapper.className = 'tree-root';
+                
+                if (rawTargetJson !== null && typeof rawTargetJson === 'object') {
+                    for (let childKey in rawTargetJson) {
+                        buildTreeDOM(rawTargetJson[childKey], rootWrapper, childKey, '');
+                    }
+                } else {
+                    buildTreeDOM(rawTargetJson, rootWrapper, 'Value', '');
+                }
+                
+                output.appendChild(rootWrapper);
+            } catch (err) {
+                output.innerHTML = '<div class="error-tip"><b>JSON 解析失败:</b><br>' + escapeHtml(err.message) + '</div>';
+            }
+        }
+
+        function buildTreeDOM(data, container, key, parentPath) {
+            const dataType = typeof data;
+            const isObject = data !== null && dataType === 'object';
+            
+            let currentPath = parentPath;
+            if (parentPath !== '') {
+                if (/^\\d+$/.test(key)) {
+                    currentPath += '[' + key + ']';
+                } else {
+                    currentPath += '.' + key;
+                }
+            } else {
+                currentPath = /^\\d+$/.test(key) ? '[' + key + ']' : key;
+            }
+
+            const itemBlock = document.createElement('div');
+            itemBlock.className = 'tree-item';
+
+            const rowContent = document.createElement('div');
+            rowContent.className = 'row-content';
+            rowContent.setAttribute('data-path', currentPath);
+
+            let displayValueSummary = "";
+            if (isObject) {
+                displayValueSummary = Array.isArray(data) ? "[Array]" : "{Object}";
+            } else {
+                displayValueSummary = data === null ? "null" : JSON.stringify(data);
+            }
+            rowContent.setAttribute('data-value', displayValueSummary);
+
+            if (isObject) {
+                rowContent.innerHTML = '<div class="arrow-box"><div class="arrow-shape"></div></div><span class="key-name">' + escapeHtml(key) + '</span>';
+                itemBlock.appendChild(rowContent);
+
+                rowContent.querySelector('.arrow-box').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    itemBlock.classList.toggle('collapsed');
+                    hidePopover(); 
+                });
+
+                rowContent.addEventListener('click', (e) => {
+                    if(e.target.closest('.arrow-box')) return;
+                    handleRowSelection(rowContent, currentPath, displayValueSummary, e);
+                });
+
+                for (let childKey in data) {
+                    buildTreeDOM(data[childKey], itemBlock, childKey, currentPath);
+                }
+            } else {
+                let valueClass = 'val-str';
+                let renderedValue = JSON.stringify(data);
+
+                if (dataType === 'number') valueClass = 'val-num';
+                if (dataType === 'boolean') valueClass = 'val-bool';
+                if (data === null) { valueClass = 'val-null'; renderedValue = 'null'; }
+
+                rowContent.innerHTML = '<div class="arrow-spacer"></div><span class="key-name">' + escapeHtml(key) + '</span>: <span class="' + valueClass + '">' + escapeHtml(renderedValue) + '</span>';
+                itemBlock.appendChild(rowContent);
+
+                rowContent.addEventListener('click', (e) => {
+                    handleRowSelection(rowContent, currentPath, displayValueSummary, e);
+                });
+            }
+
+            container.appendChild(itemBlock);
+        }
+
+        function handleRowSelection(rowElement, path, valueStr, event) {
+            event.stopPropagation();
+            
+            document.querySelectorAll('.row-content').forEach(el => el.classList.remove('active-row'));
+            rowElement.classList.add('active-row');
+            
+            selectedPathText = path;
+            selectedValueText = valueStr;
+
+            popoverPathText.innerText = path;
+            popoverPathText.title = path;
+            popoverValueText.innerText = valueStr;
+            popoverValueText.title = valueStr;
+            
+            popover.style.display = 'flex';
+            
+            const popoverHeight = popover.offsetHeight || 50; 
+            const pageX = event.pageX;
+            const pageY = event.pageY;
+            
+            popover.style.left = pageX + 10 + 'px';
+            popover.style.top = (pageY - popoverHeight - 10) + 'px';
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+</html>`;
+
+$done({
+    response: {
+        status: 200,
+        headers: {
+            "Content-Type": "text/html; charset=utf-8"
+        },
+        body: html
+    }
+});
