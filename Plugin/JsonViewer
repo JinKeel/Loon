@@ -1,6 +1,6 @@
 #!name = 抓包分析
 #!desc = 功能-分析JSON可视化
-#!icon = https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a0/5a/61/a05a618b-c0c5-2aef-f4d1-cf8b72f2b653/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.png
+#!icon = https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/68/95/12/6895120a-952d-136b-9eea-e75afbba880b/AppIcon-0-0-1x_U007emarketing-0-8-0-0-85-220.png/512x512bb.png
 #!system_version = 15
 
 [Script]
