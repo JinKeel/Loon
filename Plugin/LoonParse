@@ -9,8 +9,8 @@ exclude = input,"",tag=正则过滤
 include = input,"",tag=正则保留
 del = input,"",tag=删除名称
 rename = input,"",tag=重新命名
-ua = switch,false,tag=开启 UA
-userAgent = select,"Shadowrocket/2.2.77","sing-box/1.13.0","clash-verge/2.4.5",tag=选择 UA
+ua = switch,false,tag=开启替换UA
+UserAgent = select,"Shadowrocket/2.2.70","sing-box/1.13.0","clash-verge/2.4.5",tag=选择客户端
 
 [Script]
-generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/Parse.js, tag=资源解析器, timeout=10, argument=[{exclude},{include},{del},{rename},{ua},{userAgent}]
+generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/Parse.js, tag=资源解析器, timeout=10, argument=[{exclude},{include},{del},{rename},{ua},{UserAgent}]
