@@ -2,7 +2,7 @@
 #!desc = 本地操作节点 替换请求UA
 #!icon = https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/u/shgogna/version-mismatches-special-train/1.0.1670.3520/parseur/icon.png
 #!loon_version = 3.5.0(970)
-#!type=parser
+#!type = parser
 
 [Argument]
 exclude = input,"",tag=正则过滤
