@@ -9,8 +9,8 @@ exclude = input,"",tag=正则过滤
 include = input,"",tag=正则保留
 del = input,"",tag=删除名称
 rename = input,"",tag=重新命名
-ua = switch,false,tag=开启自定义UA
-userAgent = select,"Clash.Meta/1.18.0","Shadowrocket/2.2.49",tag=填写自定义UA
+ua = switch,false,tag=开启 UA
+userAgent = select,"Clash.Meta/1.18.0","Shadowrocket/2.2.49",tag=选择 UA
 
 [Script]
 generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/Parse.js, tag=资源解析器, timeout=10, argument=[{exclude},{include},{del},{rename},{ua},{userAgent}]
