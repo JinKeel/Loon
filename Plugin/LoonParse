@@ -1,15 +1,15 @@
 #!name = 资源解析器
-#!desc = 是对订阅节点进行本地解析处理筛选与整理 使用正则语法\n\n过滤节点、保留节点、删除名称\n重命名"旧名+新名"多个规则用逗号分隔\n\n启用伪装UA是使用Shadowrocket 可获取部分不兼容 Loon 的订阅
+#!desc = 是对订阅节点进行本地解析处理筛选与整理 使用正则语法\n\n过滤节点、保留节点、删除名称\n重新命名"旧名:新名"多个规则用+分隔\n\n启用伪装UA是使用Shadowrocket 可获取部分不兼容 Loon 的订阅
 #!icon = https://png.pngtree.com/png-clipart/20250428/original/pngtree-research-science-laboratory-vector-png-image_20866920.png
 #!loon_version = 3.5.0(970)
 #!type = parser
 
 [Argument]
-exclude = input,"",tag=正则过滤
-include = input,"",tag=正则保留
-del = input,"",tag=正则删除
-rename = input,"",tag=正则重名
+keep = input,"",tag=保留节点
+drop = input,"",tag=过滤节点
+wipe = input,"",tag=删除名称
+name = input,"",tag=重新命名
 ua = switch,false,tag=启用伪装UA
 
 [Script]
-generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/Parse.js, tag=资源解析器, timeout=10, argument=[{exclude},{include},{del},{rename},{ua}]
+generic script-path=L.js, tag=资源解析器, timeout=10, argument=[{keep},{drop},{wipe},{name},{ua}]
