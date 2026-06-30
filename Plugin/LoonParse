@@ -1,5 +1,5 @@
 #!name = 资源解析器
-#!desc = 用于对订阅节点进行本地解析处理 可在拉取订阅时对节点进行筛选与整理\n\n使用说明\n支持通过正则对节点进行 过滤节点 保留节点 删除节点名\n操作重命名格式 旧名+新名 多个用,连接 \n\n支持启用UA兼容使用Shadowrocket以访问部分不兼容Loon的订阅
+#!desc = 对订阅节点进行本地解析处理 在拉取订阅时对节点进行筛选与整理\n\n支持通过正则对节点进行\n过滤节点\n保留节点\n删除节点名\n操作重命名格式 旧名+新名 多个用,连接 \n\n支持启用UA兼容使用Shadowrocket以访问部分不兼容Loon的订阅
 #!icon = https://raw.githubusercontent.com/JinKeel/Loon/refs/heads/main/icon/Loon.png
 #!loon_version = 3.5.0(970)
 #!type = parser
@@ -9,7 +9,7 @@ exclude = input,"",tag=正则过滤
 include = input,"",tag=正则保留
 del = input,"",tag=正则删除
 rename = input,"",tag=正则重名
-ua = switch,false,tag=替换请求 UA
+ua = switch,false,tag=伪装客户端UA
 
 [Script]
 generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/Parse.js, tag=资源解析器, timeout=10, argument=[{exclude},{include},{del},{rename},{ua}]
