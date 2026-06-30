@@ -12,4 +12,4 @@ name = input,"",tag=重新命名
 ua = switch,false,tag=启用伪装UA
 
 [Script]
-generic script-path=L.js, tag=资源解析器, timeout=10, argument=[{keep},{drop},{wipe},{name},{ua}]
+generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/Parse.js, tag=资源解析器, timeout=10, argument=[{keep},{drop},{wipe},{name},{ua}]
