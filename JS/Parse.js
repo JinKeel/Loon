@@ -1,7 +1,6 @@
 // 2026.6.30
 
-var Type = $resourceType;
-
+var LoonType = $resourceType;
 var include = "",
     exclude = "",
     del = "",
@@ -22,20 +21,20 @@ function safeReg(pattern, flags, label, errList) {
     }
 }
 
-function base64Decode(str) {
+function Base64(str) {
     try {
         var pad = str.length % 4;
         if (pad === 2) str += "==";
         else if (pad === 3) str += "=";
 
         var bin = atob(str.replace(/_/g, "/").replace(/-/g, "+")),
-            result = [];
+            out = [];
 
         for (var i = 0; i < bin.length; i++) {
-            result.push("%" + ("00" + bin.charCodeAt(i).toString(16)).slice(-2));
+            out.push("%" + ("00" + bin.charCodeAt(i).toString(16)).slice(-2));
         }
 
-        return decodeURIComponent(result.join(""));
+        return decodeURIComponent(out.join(""));
     } catch (e) {
         return "";
     }
@@ -52,9 +51,9 @@ function base64Decode(str) {
         ua = arg.ua === true;
     }
 
-    var source = $resource || "";
+    var src = $resource || "";
 
-    if (ua && Type === 1 && $httpClient && $resourceUrl) {
+    if (ua && LoonType === 1 && $httpClient && $resourceUrl) {
         $httpClient.get(
             {
                 url: String($resourceUrl),
@@ -63,16 +62,16 @@ function base64Decode(str) {
                 }
             },
             function (err, resp, data) {
-                $done(Type === 1 ? process(data || source) : String(data || ""));
+                $done(LoonType === 1 ? process(data || src) : String(data || ""));
             }
         );
     } else {
-        $done(Type === 1 ? process(source) : String(source));
+        $done(LoonType === 1 ? process(src) : String(src));
     }
 })();
 
 function process(content) {
-    var errors = [];
+    var errList = [];
 
     var str = String(content || "");
     if (str.charCodeAt(0) === 0xFEFF) str = str.slice(1);
@@ -83,9 +82,9 @@ function process(content) {
 
     if (!text) return "";
 
-    var regExclude = exclude ? safeReg(exclude, "", "正则过滤", errors) : null,
-        regInclude = include ? safeReg(include, "", "正则保留", errors) : null,
-        regDelete = del ? safeReg(del, "g", "删除名称", errors) : null;
+    var regExclude = exclude ? safeReg(exclude, "", "正则过滤", errList) : null,
+        regInclude = include ? safeReg(include, "", "正则保留", errList) : null,
+        regDelete = del ? safeReg(del, "g", "删除名称", errList) : null;
 
     var renameRules = [];
 
@@ -96,8 +95,8 @@ function process(content) {
             if (pos > -1) {
                 var key = arr[i].slice(0, pos).trim();
                 if (key) {
-                    var reg = safeReg(key, "g", "重新命名", errors);
-                    if (reg) renameRules.push([reg, arr[i].slice(pos + 1).trim()]);
+                    var r = safeReg(key, "g", "重新命名", errList);
+                    if (r) renameRules.push([r, arr[i].slice(pos + 1).trim()]);
                 }
             }
         }
@@ -105,7 +104,7 @@ function process(content) {
 
     var raw = text.replace(/\s+/g, "");
     if (raw && raw.length >= 16 && raw.length % 4 === 0 && /^[A-Za-z0-9+/=_-]+$/.test(raw)) {
-        var decoded = base64Decode(raw);
+        var decoded = Base64(raw);
 
         if (decoded) {
             if (decoded.charCodeAt(0) === 0xFEFF) decoded = decoded.slice(1);
@@ -161,14 +160,14 @@ function process(content) {
 
             text = output.join("\n");
         } else {
-            text = plain(text, regExclude, regInclude, regDelete, renameRules, errors);
+            text = plain(text, regExclude, regInclude, regDelete, renameRules, errList);
         }
     } else {
-        text = plain(text, regExclude, regInclude, regDelete, renameRules, errors);
+        text = plain(text, regExclude, regInclude, regDelete, renameRules, errList);
     }
 
-    if (errors.length) {
-        var msg = errors.map(function (x) {
+    if (errList.length) {
+        var msg = errList.map(function (x) {
             return x.title + "错误\n" + x.pattern;
         }).join("\n\n");
 
@@ -178,7 +177,7 @@ function process(content) {
     return text;
 }
 
-function plain(text, regExclude, regInclude, regDelete, renameRules, errors) {
+function plain(text, regExclude, regInclude, regDelete, renameRules, errList) {
     var lines = text.split("\n"),
         output = [];
 
