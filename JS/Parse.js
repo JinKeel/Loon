@@ -1,36 +1,41 @@
 // 2026.6.30
 
 var Type = $resourceType;
+
 var include = "",
     exclude = "",
     del = "",
     rename = "",
     ua = false;
 
-function safeReg(p, f, title, errList) {
+function safeReg(pattern, flags, label, errList) {
     try {
-        if (!p) return null;
-        return new RegExp(p, f);
+        if (!pattern) return null;
+        return new RegExp(pattern, flags);
     } catch (e) {
         errList.push({
-            title: title,
-            pattern: p,
-            reason: e && e.message ? e.message : String(e)
+            title: label,
+            pattern: pattern,
+            reason: String(e && e.message || e)
         });
         return null;
     }
 }
 
-function LoonBase64(s) {
+function base64Decode(str) {
     try {
-        var p = s.length % 4;
-        if (p === 2) s += "==";
-        else if (p === 3) s += "=";
-        var b = atob(s.replace(/_/g, "/").replace(/-/g, "+")), a = [];
-        for (var i = 0; i < b.length; i++) {
-            a.push("%" + ("00" + b.charCodeAt(i).toString(16)).slice(-2));
+        var pad = str.length % 4;
+        if (pad === 2) str += "==";
+        else if (pad === 3) str += "=";
+
+        var bin = atob(str.replace(/_/g, "/").replace(/-/g, "+")),
+            result = [];
+
+        for (var i = 0; i < bin.length; i++) {
+            result.push("%" + ("00" + bin.charCodeAt(i).toString(16)).slice(-2));
         }
-        return decodeURIComponent(a.join(""));
+
+        return decodeURIComponent(result.join(""));
     } catch (e) {
         return "";
     }
@@ -47,7 +52,7 @@ function LoonBase64(s) {
         ua = arg.ua === true;
     }
 
-    var src = $resource || "";
+    var source = $resource || "";
 
     if (ua && Type === 1 && $httpClient && $resourceUrl) {
         $httpClient.get(
@@ -57,135 +62,152 @@ function LoonBase64(s) {
                     "User-Agent": "Shadowrocket/2.2.70"
                 }
             },
-            function (e, r, d) {
-                $done(Type === 1 ? process(d || src) : String(d || ""));
+            function (err, resp, data) {
+                $done(Type === 1 ? process(data || source) : String(data || ""));
             }
         );
     } else {
-        $done(Type === 1 ? process(src) : String(src));
+        $done(Type === 1 ? process(source) : String(source));
     }
 })();
 
-function process(c) {
-    var _regErrList = [];
+function process(content) {
+    var errors = [];
 
-    var s = String(c || "");
-    if (s.charCodeAt(0) === 0xFEFF) s = s.slice(1);
+    var str = String(content || "");
+    if (str.charCodeAt(0) === 0xFEFF) str = str.slice(1);
 
-    var t = s.replace(/\r\n/g, "\n")
+    var text = str.replace(/\r\n/g, "\n")
         .replace(/\r/g, "\n")
         .trim();
 
-    if (!t) return "";
+    if (!text) return "";
 
-    var ex = exclude ? safeReg(exclude, "", "正则过滤", _regErrList) : null,
-        inr = include ? safeReg(include, "", "正则保留", _regErrList) : null,
-        dl = del ? safeReg(del, "g", "删除名称", _regErrList) : null;
+    var regExclude = exclude ? safeReg(exclude, "", "正则过滤", errors) : null,
+        regInclude = include ? safeReg(include, "", "正则保留", errors) : null,
+        regDelete = del ? safeReg(del, "g", "删除名称", errors) : null;
 
-    var r = [];
+    var renameRules = [];
 
     if (rename) {
-        var a = rename.split(",");
-        for (var i = 0; i < a.length; i++) {
-            var m = a[i].indexOf("+");
-            if (m > -1) {
-                var k = a[i].slice(0, m).trim();
-                if (k) {
-                    var rr = safeReg(k, "g", "重新命名", _regErrList);
-                    if (rr) r.push([rr, a[i].slice(m + 1).trim()]);
+        var arr = rename.split(",");
+        for (var i = 0; i < arr.length; i++) {
+            var pos = arr[i].indexOf("+");
+            if (pos > -1) {
+                var key = arr[i].slice(0, pos).trim();
+                if (key) {
+                    var reg = safeReg(key, "g", "重新命名", errors);
+                    if (reg) renameRules.push([reg, arr[i].slice(pos + 1).trim()]);
                 }
             }
         }
     }
 
-    var p = t.replace(/\s+/g, "");
-    if (p && p.length >= 16 && p.length % 4 === 0 && /^[A-Za-z0-9+/=_-]+$/.test(p)) {
-        var d = LoonBase64(p);
-        if (d) {
-            if (d.charCodeAt(0) === 0xFEFF) d = d.slice(1);
+    var raw = text.replace(/\s+/g, "");
+    if (raw && raw.length >= 16 && raw.length % 4 === 0 && /^[A-Za-z0-9+/=_-]+$/.test(raw)) {
+        var decoded = base64Decode(raw);
 
-            var l = d.split("\n"), o = [];
+        if (decoded) {
+            if (decoded.charCodeAt(0) === 0xFEFF) decoded = decoded.slice(1);
 
-            for (var i = 0; i < l.length; i++) {
-                var x = l[i].trim();
-                if (!x) continue;
+            var lines = decoded.split("\n"),
+                output = [];
 
-                var h = x.lastIndexOf("#"), n = "", f = 0;
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i].trim();
+                if (!line) continue;
 
-                if (h > -1 && h < x.length - 1) {
-                    try { n = decodeURIComponent(x.slice(h + 1)); } catch (e) { n = x.slice(h + 1); }
-                    f = 1;
+                var hash = line.lastIndexOf("#"),
+                    name = "",
+                    marked = false;
+
+                if (hash > -1 && hash < line.length - 1) {
+                    try {
+                        name = decodeURIComponent(line.slice(hash + 1));
+                    } catch (e) {
+                        name = line.slice(hash + 1);
+                    }
+                    marked = true;
                 } else {
-                    var m2 = x.match(/[?&]remark=([^&#]*)/);
-                    if (m2) {
-                        try { n = decodeURIComponent(m2[1]); } catch (e) { n = m2[1]; }
+                    var m = line.match(/[?&]remark=([^&#]*)/);
+                    if (m) {
+                        try {
+                            name = decodeURIComponent(m[1]);
+                        } catch (e) {
+                            name = m[1];
+                        }
                     }
                 }
 
-                if (!n) {
-                    o.push(x);
+                if (!name) {
+                    output.push(line);
                     continue;
                 }
 
-                if (ex && ex.test(n)) continue;
-                if (inr && !inr.test(n)) continue;
-                if (dl) n = n.replace(dl, "");
+                if (regExclude && regExclude.test(name)) continue;
+                if (regInclude && !regInclude.test(name)) continue;
+                if (regDelete) name = name.replace(regDelete, "");
 
-                for (var j = 0; j < r.length; j++) {
-                    n = n.replace(r[j][0], r[j][1]);
+                for (var j = 0; j < renameRules.length; j++) {
+                    name = name.replace(renameRules[j][0], renameRules[j][1]);
                 }
 
-                o.push(f ? x.slice(0, h + 1) + encodeURIComponent(n) : x + "#" + encodeURIComponent(n));
+                output.push(
+                    marked
+                        ? line.slice(0, hash + 1) + encodeURIComponent(name)
+                        : line + "#" + encodeURIComponent(name)
+                );
             }
 
-            t = o.join("\n");
+            text = output.join("\n");
         } else {
-            t = plain(t, ex, inr, dl, r, _regErrList);
+            text = plain(text, regExclude, regInclude, regDelete, renameRules, errors);
         }
     } else {
-        t = plain(t, ex, inr, dl, r, _regErrList);
+        text = plain(text, regExclude, regInclude, regDelete, renameRules, errors);
     }
 
-    if (_regErrList.length) {
-        var msg = _regErrList.map(function (x) {
+    if (errors.length) {
+        var msg = errors.map(function (x) {
             return x.title + "错误\n" + x.pattern;
         }).join("\n\n");
 
         $notification.post("资源解析器", "", msg);
     }
 
-    return t;
+    return text;
 }
 
-function plain(t, ex, inr, dl, r, errList) {
-    var l = t.split("\n"), o = [];
+function plain(text, regExclude, regInclude, regDelete, renameRules, errors) {
+    var lines = text.split("\n"),
+        output = [];
 
-    for (var i = 0; i < l.length; i++) {
-        var x = l[i].trim();
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
 
-        if (!x || x[0] === "#") {
-            o.push(x);
+        if (!line || line[0] === "#") {
+            output.push(line);
             continue;
         }
 
-        var e = x.indexOf("=");
+        var eq = line.indexOf("=");
 
-        if (e > 0) {
-            var n = x.slice(0, e).trim();
+        if (eq > 0) {
+            var name = line.slice(0, eq).trim();
 
-            if (ex && ex.test(n)) continue;
-            if (inr && !inr.test(n)) continue;
-            if (dl) n = n.replace(dl, "");
+            if (regExclude && regExclude.test(name)) continue;
+            if (regInclude && !regInclude.test(name)) continue;
+            if (regDelete) name = name.replace(regDelete, "");
 
-            for (var j = 0; j < r.length; j++) {
-                n = n.replace(r[j][0], r[j][1]);
+            for (var j = 0; j < renameRules.length; j++) {
+                name = name.replace(renameRules[j][0], renameRules[j][1]);
             }
 
-            o.push(n + "=" + x.slice(e + 1).trim());
+            output.push(name + "=" + line.slice(eq + 1).trim());
         } else {
-            o.push(x);
+            output.push(line);
         }
     }
 
-    return o.join("\n");
+    return output.join("\n");
 }
