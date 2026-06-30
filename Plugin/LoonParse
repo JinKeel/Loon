@@ -1,5 +1,5 @@
 #!name = 资源解析器
-#!desc = 本地操作节点 替换请求UA
+#!desc = 用于对订阅节点进行本地解析处理，可在拉取订阅时对节点进行筛选与整理\n\n使用说明：\n支持通过正则对节点进行过滤、保留、删除、重命名、操作\n\n支持启用UA兼容模式以访问部分不兼容Loon的订阅源\n所有处理仅在本地解析阶段生效
 #!icon = https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/u/shgogna/version-mismatches-special-train/1.0.1670.3520/parseur/icon.png
 #!loon_version = 3.5.0(970)
 #!type = parser
@@ -7,10 +7,9 @@
 [Argument]
 exclude = input,"",tag=正则过滤
 include = input,"",tag=正则保留
-del = input,"",tag=删除名称
-rename = input,"",tag=重新命名
-ua = switch,false,tag=开启替换UA
-UserAgent = select,"Shadowrocket/2.2.70","sing-box/1.13.0","clash-verge/2.4.5",tag=选择客户端
+del = input,"",tag=正则删除
+rename = input,"",tag=正则重名
+ua = switch,false,tag=替换UA请求订阅
 
 [Script]
-generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/Parse.js, tag=资源解析器, timeout=10, argument=[{exclude},{include},{del},{rename},{ua},{UserAgent}]
+generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/Parse.js, tag=资源解析器, timeout=10, argument=[{exclude},{include},{del},{rename},{ua}]
