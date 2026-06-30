@@ -1,5 +1,5 @@
 #!name = 资源解析器
-#!desc = 用于对订阅节点进行本地解析处理，可在拉取订阅时对节点进行筛选与整理\n\n使用说明：\n支持通过正则对节点进行 过滤 保留 删除\n操作重命名格式 旧名+新名,旧名+新名 \n\n支持启用UA兼容使用Shadowrocket以访问部分不兼容Loon的订阅
+#!desc = 用于对订阅节点进行本地解析处理 可在拉取订阅时对节点进行筛选与整理\n\n使用说明\n支持通过正则对节点进行 过滤节点 保留节点 删除节点名\n操作重命名格式 旧名+新名 多个用,连接 \n\n支持启用UA兼容使用Shadowrocket以访问部分不兼容Loon的订阅
 #!icon = https://raw.githubusercontent.com/JinKeel/Loon/refs/heads/main/icons/loon.png
 #!loon_version = 3.5.0(970)
 #!type = parser
