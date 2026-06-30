@@ -3,10 +3,6 @@
   "description": "图标组",
   "icons": [
     {
-      "name": "Loon",
-      "url": "https://raw.githubusercontent.com/JinKeel/Loon/refs/heads/main/icons/Loon.png"
-    },
-    {
       "name": "Proxy",
       "url": "https://raw.githubusercontent.com/JinKeel/Loon/refs/heads/main/icons/Proxy.png"
     }
