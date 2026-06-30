@@ -1,212 +1,182 @@
-// 2026.6.30
+var kind = $resourceType;
+var keep = "";
+var wipe = "";
+var drop = "";
+var name = "";
+var ua = false;
 
-var LoonType = $resourceType;
-var include = "",
-    exclude = "",
-    del = "",
-    rename = "",
-    ua = false;
-
-function safeReg(pattern, flags, label, errList) {
-    try {
-        if (!pattern) return null;
-        return new RegExp(pattern, flags);
-    } catch (e) {
-        errList.push({
-            title: label,
-            pattern: pattern,
-            reason: String(e && e.message || e)
-        });
-        return null;
-    }
-}
-
-function Base64(str) {
-    try {
-        var pad = str.length % 4;
-        if (pad === 2) str += "==";
-        else if (pad === 3) str += "=";
-
-        var bin = atob(str.replace(/_/g, "/").replace(/-/g, "+")),
-            out = [];
-
-        for (var i = 0; i < bin.length; i++) {
-            out.push("%" + ("00" + bin.charCodeAt(i).toString(16)).slice(-2));
-        }
-
-        return decodeURIComponent(out.join(""));
-    } catch (e) {
-        return "";
-    }
-}
-
-(function () {
-    var arg = typeof $argument !== "undefined" ? $argument : null;
-
-    if (arg && typeof arg === "object") {
-        include = arg.include != null ? String(arg.include) : include;
-        exclude = arg.exclude != null ? String(arg.exclude) : exclude;
-        del = arg.del != null ? String(arg.del) : del;
-        rename = arg.rename != null ? String(arg.rename) : rename;
-        ua = arg.ua === true;
-    }
-
-    var src = $resource || "";
-
-    if (ua && LoonType === 1 && $httpClient && $resourceUrl) {
-        $httpClient.get(
-            {
-                url: String($resourceUrl),
-                headers: {
-                    "User-Agent": "Shadowrocket/2.2.70"
-                }
-            },
-            function (err, resp, data) {
-                $done(LoonType === 1 ? process(data || src) : String(data || ""));
-            }
-        );
-    } else {
-        $done(LoonType === 1 ? process(src) : String(src));
+(function parse() {
+    var args = $argument;
+    if (args && typeof args === "object") {
+        keep = args.keep != null ? String(args.keep) : keep;
+        wipe = args.wipe != null ? String(args.wipe) : wipe;
+        drop = args.drop != null ? String(args.drop) : drop;
+        name = args.name != null ? String(args.name) : name;
+        ua = args.ua === true;
     }
 })();
 
-function process(content) {
-    var errList = [];
+(function main() {
+    var input = $resource || "";
 
-    var str = String(content || "");
-    if (str.charCodeAt(0) === 0xFEFF) str = str.slice(1);
-
-    var text = str.replace(/\r\n/g, "\n")
-        .replace(/\r/g, "\n")
-        .trim();
-
-    if (!text) return "";
-
-    var regExclude = exclude ? safeReg(exclude, "", "正则过滤", errList) : null,
-        regInclude = include ? safeReg(include, "", "正则保留", errList) : null,
-        regDelete = del ? safeReg(del, "g", "正则删除", errList) : null;
-
-    var renameRules = [];
-
-    if (rename) {
-        var arr = rename.split(",");
-        for (var i = 0; i < arr.length; i++) {
-            var pos = arr[i].indexOf("+");
-            if (pos > -1) {
-                var key = arr[i].slice(0, pos).trim();
-                if (key) {
-                    var r = safeReg(key, "g", "正则重名", errList);
-                    if (r) renameRules.push([r, arr[i].slice(pos + 1).trim()]);
-                }
+    if (ua && kind === 1 && $httpClient && $resourceUrl) {
+        $httpClient.get(
+            {
+                url: String($resourceUrl),
+                headers: { "User-Agent": "Shadowrocket/2.2.70" }
+            },
+            function (fault, state, reply) {
+                $done(kind === 1 ? sift(reply || input) : String(reply || ""));
             }
-        }
-    }
-
-    var raw = text.replace(/\s+/g, "");
-    if (raw && raw.length >= 16 && raw.length % 4 === 0 && /^[A-Za-z0-9+/=_-]+$/.test(raw)) {
-        var decoded = Base64(raw);
-
-        if (decoded) {
-            if (decoded.charCodeAt(0) === 0xFEFF) decoded = decoded.slice(1);
-
-            var lines = decoded.split("\n"),
-                output = [];
-
-            for (var i = 0; i < lines.length; i++) {
-                var line = lines[i].trim();
-                if (!line) continue;
-
-                var hash = line.lastIndexOf("#"),
-                    name = "",
-                    marked = false;
-
-                if (hash > -1 && hash < line.length - 1) {
-                    try {
-                        name = decodeURIComponent(line.slice(hash + 1));
-                    } catch (e) {
-                        name = line.slice(hash + 1);
-                    }
-                    marked = true;
-                } else {
-                    var m = line.match(/[?&]remark=([^&#]*)/);
-                    if (m) {
-                        try {
-                            name = decodeURIComponent(m[1]);
-                        } catch (e) {
-                            name = m[1];
-                        }
-                    }
-                }
-
-                if (!name) {
-                    output.push(line);
-                    continue;
-                }
-
-                if (regExclude && regExclude.test(name)) continue;
-                if (regInclude && !regInclude.test(name)) continue;
-                if (regDelete) name = name.replace(regDelete, "");
-
-                for (var j = 0; j < renameRules.length; j++) {
-                    name = name.replace(renameRules[j][0], renameRules[j][1]);
-                }
-
-                output.push(
-                    marked
-                        ? line.slice(0, hash + 1) + encodeURIComponent(name)
-                        : line + "#" + encodeURIComponent(name)
-                );
-            }
-
-            text = output.join("\n");
-        } else {
-            text = plain(text, regExclude, regInclude, regDelete, renameRules, errList);
-        }
+        );
     } else {
-        text = plain(text, regExclude, regInclude, regDelete, renameRules, errList);
+        $done(kind === 1 ? sift(input) : String(input));
     }
+})();
 
-    if (errList.length) {
-        var msg = errList.map(function (x) {
-            return x.title + "错误\n" + x.pattern;
-        }).join("\n\n");
-
-        $notification.post("资源解析器", "", msg);
+function note(array) {
+    if (typeof $notification !== "undefined") {
+        $notification.post("资源解析器", "正则错误", array.join("\n"));
     }
-
-    return text;
 }
 
-function plain(text, regExclude, regInclude, regDelete, renameRules, errList) {
-    var lines = text.split("\n"),
-        output = [];
+function sift(input) {
+    var stage = String(input || "");
+    if (stage.charCodeAt(0) === 0xFEFF) stage = stage.slice(1);
+
+    var block = stage.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
+    if (!block) return "";
+
+    var match = null;
+    var clear = null;
+    var loose = null;
+    var wrong = [];
+
+    if (keep) {
+        try { match = new RegExp(keep); } catch (e) { wrong.push(keep); }
+    }
+    if (wipe) {
+        try { clear = new RegExp(wipe, "g"); } catch (e) { wrong.push(wipe); }
+    }
+    if (drop) {
+        try { loose = new RegExp(drop); } catch (e) { wrong.push(drop); }
+    }
+
+    var alter = [];
+    if (name) {
+        var items = name.split("+");
+        for (var i = 0; i < items.length; i++) {
+            var split = items[i].indexOf(":");
+            if (split > -1) {
+                var key = items[i].slice(0, split).trim();
+                if (key) {
+                    try {
+                        var reg = new RegExp(key, "g");
+                        alter.push([reg, items[i].slice(split + 1).trim()]);
+                    } catch (e) {
+                        wrong.push(key);
+                    }
+                }
+            }
+        }
+    }
+
+    if (wrong.length > 0) {
+        note(wrong);
+        return block;
+    }
+
+    var base = block.replace(/\s+/g, "");
+    if (base && base.length >= 16 && base.length % 4 === 0 && /^[A-Za-z0-9+/=_-]+$/.test(base)) {
+        try {
+            var pad = base.length % 4;
+            if (pad === 2) base += "==";
+            else if (pad === 3) base += "=";
+            var bin = atob(base.replace(/_/g, "/").replace(/-/g, "+")), out = [];
+            for (var i = 0; i < bin.length; i++) {
+                out.push("%" + ("00" + bin.charCodeAt(i).toString(16)).slice(-2));
+            }
+            var plain = decodeURIComponent(out.join(""));
+            
+            if (plain) {
+                if (plain.charCodeAt(0) === 0xFEFF) plain = plain.slice(1);
+                var lines = plain.split("\n"), output = [];
+
+                for (var i = 0; i < lines.length; i++) {
+                    var line = lines[i].trim();
+                    if (!line) continue;
+
+                    var hash = line.lastIndexOf("#"), title = "", coded = false;
+                    if (hash > -1 && hash < line.length - 1) {
+                        try { title = decodeURIComponent(line.slice(hash + 1)); } catch (e) { title = line.slice(hash + 1); }
+                        coded = true;
+                    } else {
+                        var m = line.match(/[?&]remark=([^&#]*)/);
+                        if (m) {
+                            try { title = decodeURIComponent(m[1]); } catch (e) { title = m[1]; }
+                        }
+                    }
+
+                    if (!title) {
+                        output.push(line);
+                        continue;
+                    }
+
+                    if (loose && loose.test(title)) continue;
+                    if (match && !match.test(title)) continue;
+                    if (clear) title = title.replace(clear, "");
+
+                    for (var j = 0; j < alter.length; j++) {
+                        title = title.replace(alter[j][0], alter[j][1]);
+                    }
+
+                    output.push(
+                        coded
+                            ? line.slice(0, hash + 1) + encodeURIComponent(title)
+                            : line + "#" + encodeURIComponent(title)
+                    );
+                }
+                block = output.join("\n");
+            }
+        } catch (e) {
+            block = tweak(block, match, clear, loose, alter);
+        }
+    } else {
+        block = tweak(block, match, clear, loose, alter);
+    }
+
+    return block;
+}
+
+function tweak(block, match, clear, loose, alter) {
+    var lines = block.split("\n");
+    var final = [];
 
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i].trim();
 
         if (!line || line[0] === "#") {
-            output.push(line);
+            final.push(line);
             continue;
         }
 
-        var eq = line.indexOf("=");
+        var sign = line.indexOf("=");
+        if (sign > 0) {
+            var label = line.slice(0, sign).trim();
+            
+            if (loose && loose.test(label)) continue;
+            if (match && !match.test(label)) continue;
+            if (clear) label = label.replace(clear, "").trim();
 
-        if (eq > 0) {
-            var name = line.slice(0, eq).trim();
-
-            if (regExclude && regExclude.test(name)) continue;
-            if (regInclude && !regInclude.test(name)) continue;
-            if (regDelete) name = name.replace(regDelete, "");
-
-            for (var j = 0; j < renameRules.length; j++) {
-                name = name.replace(renameRules[j][0], renameRules[j][1]);
+            for (var j = 0; j < alter.length; j++) {
+                label = label.replace(alter[j][0], alter[j][1]);
             }
 
-            output.push(name + "=" + line.slice(eq + 1).trim());
+            final.push(label + "=" + line.slice(sign + 1).trim());
         } else {
-            output.push(line);
+            final.push(line);
         }
     }
 
-    return output.join("\n");
+    return final.join("\n");
 }
