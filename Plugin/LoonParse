@@ -1,6 +1,6 @@
 #!name = 资源解析器
 #!desc = 对订阅节点进行本地解析处理通过正则 过滤节点, 保留节点, 删除节点名, 节点重命名格式列如 旧名+新名 多个用,连接 \n\n启用UA兼容使用Shadowrocket以访问部分不兼容Loon的订阅
-#!icon = https://raw.githubusercontent.com/JinKeel/Loon/refs/heads/main/icon/Loon.png
+#!icon = https://png.pngtree.com/png-vector/20250307/ourmid/pngtree-search-icon-png-image_15738214.png
 #!loon_version = 3.5.0(970)
 #!type = parser
 
