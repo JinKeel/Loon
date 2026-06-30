@@ -84,7 +84,7 @@ function process(content) {
 
     var regExclude = exclude ? safeReg(exclude, "", "正则过滤", errList) : null,
         regInclude = include ? safeReg(include, "", "正则保留", errList) : null,
-        regDelete = del ? safeReg(del, "g", "删除名称", errList) : null;
+        regDelete = del ? safeReg(del, "g", "正则删除", errList) : null;
 
     var renameRules = [];
 
@@ -95,7 +95,7 @@ function process(content) {
             if (pos > -1) {
                 var key = arr[i].slice(0, pos).trim();
                 if (key) {
-                    var r = safeReg(key, "g", "重新命名", errList);
+                    var r = safeReg(key, "g", "正则重名", errList);
                     if (r) renameRules.push([r, arr[i].slice(pos + 1).trim()]);
                 }
             }
