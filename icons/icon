@@ -1,90 +1,14 @@
 {
   "name": "图标",
-  "description": "更新于 2026.06.17",
+  "description": "图标组",
   "icons": [
     {
-      "name": "HK",
-      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/01Country/Hongkong.png"
-    },
-    {
-      "name": "JP",
-      "url": "https://cdn-icons-png.flaticon.com/256/197/197604.png"
-    },
-    {
-      "name": "Egern",
-      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/02ProxySoftLogo/Egern.png"
-    },
-    {
       "name": "Loon",
-      "url": "https://raw.githubusercontent.com/JinKeel/Loon/refs/heads/main/icons/loon.png"
+      "url": "https://raw.githubusercontent.com/JinKeel/Loon/refs/heads/main/icons/Loon.png"
     },
     {
-      "name": "QuantumultX",
-      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/02ProxySoftLogo/quanx(2).png"
-    },
-    {
-      "name": "Globe",
-      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/05icon/quanqiu(1).png"
-    },
-    {
-      "name": "Google",
-      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/google(1).png"
-    },
-    {
-      "name": "Spotify",
-      "url": "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/spotify(green)(1).png"
-    },
-    {
-      "name": "Telegram",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/1920px-Telegram_logo.svg.png"
-    },
-    {
-      "name": "Tg",
-      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"
-    },
-    {
-      "name": "Apple",
-      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple_2.png"
-    },
-    {
-      "name": "iCloud",
-      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/iCloud.png"
-    },
-    {
-      "name": "YouTube",
-      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png"
-    },
-    {
-      "name": "YouTubeMusic",
-      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube_Music.png"
-    },
-    {
-      "name": "Aout",
-      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Auto.png"
-    },
-    {
-      "name": "Round",
-      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Round_Robin.png"
-    },
-    {
-      "name": "Global",
-      "url": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png"
-    },
-    {
-      "name": "AdBlock",
-      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Advertising.png"
-    },
-    {
-      "name": "ChatGPT",
-      "url": "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"
-    },
-    {
-      "name": "Reject",
-      "url": "https://storage.freeicon.com/free-icon-icon-hYyLoUtr7Mu7"
-    },
-    {
-      "name": "Gemini",
-      "url": "https://custom.typingmind.com/assets/landing-page/gemini_logo.png"
+      "name": "Proxy",
+      "url": "https://raw.githubusercontent.com/JinKeel/Loon/refs/heads/main/icons/Proxy.png"
     }
   ]
 }
