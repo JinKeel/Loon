@@ -9,7 +9,7 @@ exclude = input,"",tag=正则过滤
 include = input,"",tag=正则保留
 del = input,"",tag=正则删除
 rename = input,"",tag=正则重名
-ua = switch,false,tag=替换UA请求订阅
+ua = switch,false,tag=替换请求 UA
 
 [Script]
 generic script-path=https://github.com/JinKeel/Loon/raw/refs/heads/main/JS/Parse.js, tag=资源解析器, timeout=10, argument=[{exclude},{include},{del},{rename},{ua}]
