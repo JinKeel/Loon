@@ -1,10 +1,11 @@
-var LoonType = $resourceType;
+// 2026.6.30
+
+var Type = $resourceType;
 var include = "",
     exclude = "",
     del = "",
     rename = "",
-    ua = false,
-    UserAgent = "";
+    ua = false;
 
 function safeReg(p, f, title, errList) {
     try {
@@ -39,34 +40,29 @@ function LoonBase64(s) {
     var arg = typeof $argument !== "undefined" ? $argument : null;
 
     if (arg && typeof arg === "object") {
-        ua = arg.ua === true ||
-            String(arg.ua).toLowerCase() === "true" ||
-            arg.ua === "1" ||
-            arg.ua === "yes" ||
-            arg.ua === "on";
-
-        if (arg.UserAgent !== undefined) UserAgent = String(arg.UserAgent);
-        if (arg.userAgent !== undefined) UserAgent = String(arg.userAgent);
-        if (arg.include !== undefined) include = String(arg.include);
-        if (arg.exclude !== undefined) exclude = String(arg.exclude);
-        if (arg.del !== undefined) del = String(arg.del);
-        if (arg.rename !== undefined) rename = String(arg.rename);
+        include = arg.include != null ? String(arg.include) : include;
+        exclude = arg.exclude != null ? String(arg.exclude) : exclude;
+        del = arg.del != null ? String(arg.del) : del;
+        rename = arg.rename != null ? String(arg.rename) : rename;
+        ua = arg.ua === true;
     }
 
     var src = $resource || "";
 
-    if (ua && LoonType === 1 && $httpClient && $resourceUrl) {
+    if (ua && Type === 1 && $httpClient && $resourceUrl) {
         $httpClient.get(
             {
                 url: String($resourceUrl),
-                headers: { "User-Agent": UserAgent }
+                headers: {
+                    "User-Agent": "Shadowrocket/2.2.70"
+                }
             },
             function (e, r, d) {
-                $done(LoonType === 1 ? process(d || src) : String(d || ""));
+                $done(Type === 1 ? process(d || src) : String(d || ""));
             }
         );
     } else {
-        $done(LoonType === 1 ? process(src) : String(src));
+        $done(Type === 1 ? process(src) : String(src));
     }
 })();
 
@@ -152,7 +148,7 @@ function process(c) {
 
     if (_regErrList.length) {
         var msg = _regErrList.map(function (x) {
-            return x.title + "错误 -> " + x.pattern + "\n原因：" + x.reason;
+            return x.title + "错误\n" + x.pattern;
         }).join("\n\n");
 
         $notification.post("资源解析器", "", msg);
