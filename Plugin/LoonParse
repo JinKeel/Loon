@@ -2,7 +2,9 @@
 #!desc = 对订阅节点进行本地解析处理筛选与整理 使用正则语法匹配\n\n排除节点、保留节点、删除名称\n重新命名"旧名:新名"多个规则用+分隔\n\n启用伪装UA 会使用小火箭请求订阅可获取部分不兼容 Loon 的订阅
 #!icon = https://png.pngtree.com/png-clipart/20250428/original/pngtree-research-science-laboratory-vector-png-image_20866920.png
 #!loon_version = 3.5.0
+#!tag = 工具
 #!type = parser
+
 
 [Argument]
 keep = input,"",tag=保留节点
