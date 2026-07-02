@@ -1,4 +1,4 @@
-var kind = $resourceType;
+var mode = $resourceType;
 var keep = "";
 var wipe = "";
 var drop = "";
@@ -19,18 +19,18 @@ var ua = false;
 (function main() {
     var input = $resource || "";
 
-    if (ua && kind === 1 && $httpClient && $resourceUrl) {
+    if (ua && mode === 1 && $httpClient && $resourceUrl) {
         $httpClient.get(
             {
                 url: String($resourceUrl),
                 headers: { "User-Agent": "Shadowrocket/2.2.70" }
             },
             function (fault, state, reply) {
-                $done(kind === 1 ? sift(reply || input) : String(reply || ""));
+                $done(mode === 1 ? sift(reply || input) : String(reply || ""));
             }
         );
     } else {
-        $done(kind === 1 ? sift(input) : String(input));
+        $done(mode === 1 ? sift(input) : String(input));
     }
 })();
 
