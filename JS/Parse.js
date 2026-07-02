@@ -1,7 +1,7 @@
 var mode = $resourceType;
 var keep = "";
-var wipe = "";
 var drop = "";
+var wipe = "";
 var name = "";
 var sort = "";
 var emoji = false;
@@ -11,8 +11,8 @@ var ua = false;
     var args = $argument;
     if (args) {
         keep = args.keep != null ? String(args.keep) : keep;
+		drop = args.drop != null ? String(args.drop) : drop;
         wipe = args.wipe != null ? String(args.wipe) : wipe;
-        drop = args.drop != null ? String(args.drop) : drop;
         name = args.name != null ? String(args.name) : name;
 		sort = args.sort != null ? String(args.sort) : sort;
 	    emoji = args.emoji === true;
