@@ -27,7 +27,7 @@ var ua = false;
         $httpClient.get(
             {
                 url: String($resourceUrl),
-                headers: { "User-Agent": "Shadowrocket/2.2.70" }
+                headers: { "User-Agent": "Shadowrocket/3218 CFNetwork/3860.600.12 Darwin/25.5.2 iPhone18,2" }
             },
             function (fault, state, reply) {
                 $done(mode === 1 ? sift(reply || input) : String(reply || ""));
