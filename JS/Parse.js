@@ -3,6 +3,7 @@ var keep = "";
 var wipe = "";
 var drop = "";
 var name = "";
+var emoji = false;
 var ua = false;
 
 (function parse() {
@@ -13,6 +14,7 @@ var ua = false;
         drop = args.drop != null ? String(args.drop) : drop;
         name = args.name != null ? String(args.name) : name;
         ua = args.ua === true;
+        emoji = args.emoji === true || args.emoji === "true";
     }
 })();
 
@@ -125,6 +127,10 @@ function sift(input) {
                     if (loose && loose.test(title)) continue;
                     if (match && !match.test(title)) continue;
                     if (clear) title = title.replace(clear, "");
+                    
+                    if (emoji) {
+                        title = title.replace(/\p{Extended_Pictographic}/gu, "").replace(/[\u200D\uFE0F]/g, "");
+                    }
 
                     for (var j = 0; j < alter.length; j++) {
                         title = title.replace(alter[j][0], alter[j][1]);
@@ -167,6 +173,10 @@ function tweak(block, match, clear, loose, alter) {
             if (loose && loose.test(label)) continue;
             if (match && !match.test(label)) continue;
             if (clear) label = label.replace(clear, "").trim();
+            
+            if (emoji) {
+                label = label.replace(/\p{Extended_Pictographic}/gu, "").replace(/[\u200D\uFE0F]/g, "").trim();
+            }
 
             for (var j = 0; j < alter.length; j++) {
                 label = label.replace(alter[j][0], alter[j][1]);
