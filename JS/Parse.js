@@ -8,13 +8,13 @@ var ua = false;
 
 (function parse() {
     var args = $argument;
-    if (args && typeof args === "object") {
+    if (args) {
         keep = args.keep != null ? String(args.keep) : keep;
         wipe = args.wipe != null ? String(args.wipe) : wipe;
         drop = args.drop != null ? String(args.drop) : drop;
         name = args.name != null ? String(args.name) : name;
-        ua = args.ua === true;
-        emoji = args.emoji === true || args.emoji === "true";
+        emoji = args.emoji === true;
+				ua = args.ua === true;
     }
 })();
 
@@ -129,7 +129,7 @@ function sift(input) {
                     if (clear) title = title.replace(clear, "");
                     
                     if (emoji) {
-                        title = title.replace(/\p{Extended_Pictographic}/gu, "").replace(/[\u200D\uFE0F]/g, "");
+                        title = title.replace(/\p{Extended_Pictographic}/gu, "").replace(/\uD83C[\uDDE6-\uDDFF]/g, "").replace(/[\u200D\uFE0F]/g, "");
                     }
 
                     for (var j = 0; j < alter.length; j++) {
@@ -175,7 +175,7 @@ function tweak(block, match, clear, loose, alter) {
             if (clear) label = label.replace(clear, "").trim();
             
             if (emoji) {
-                label = label.replace(/\p{Extended_Pictographic}/gu, "").replace(/[\u200D\uFE0F]/g, "").trim();
+                label = label.replace(/\p{Extended_Pictographic}/gu, "").replace(/\uD83C[\uDDE6-\uDDFF]/g, "").replace(/[\u200D\uFE0F]/g, "").trim();
             }
 
             for (var j = 0; j < alter.length; j++) {
