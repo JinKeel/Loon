@@ -76,7 +76,7 @@ function sift(input) {
 
     var alter = [];
     if (name) {
-        var items = name.split("+");
+        var items = name.split(",");
         for (var i = 0; i < items.length; i++) {
             var split = items[i].indexOf(":");
             if (split > -1) {
