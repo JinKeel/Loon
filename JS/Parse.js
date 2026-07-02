@@ -14,7 +14,7 @@ var ua = false;
         drop = args.drop != null ? String(args.drop) : drop;
         name = args.name != null ? String(args.name) : name;
         emoji = args.emoji === true;
-				ua = args.ua === true;
+		ua = args.ua === true;
     }
 })();
 
